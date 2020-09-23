@@ -1,5 +1,5 @@
 import { initStore } from './store';
-import axios from '../axios-FirebaseAPI';
+// import axios from '../axios-FirebaseAPI';
 
 const configureStore = () => {
 	const asyncActions = {

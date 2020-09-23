@@ -4,7 +4,6 @@ import MainToolbar from '../../containers/MainToolbar/MainToolbar';
 import Dialog from '@material-ui/core/Dialog';
 import Login from '../../containers/Login/Login';
 import Register from '../../containers/Register/Register';
-import styled from 'styled-components';
 
 const Layout = (props) => {
 	const [dialogOpen, setDialogOpen] = useState(false);

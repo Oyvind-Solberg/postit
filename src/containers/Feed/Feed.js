@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
 
 const posts = [
 	{
@@ -42,8 +43,8 @@ const Feed = (props) => {
 		return (
 			<Card key={id}>
 				<CardContent>
-					{title}
-					{text}
+					<Typography>{title}</Typography>
+					<Typography>{text}</Typography>
 				</CardContent>
 			</Card>
 		);

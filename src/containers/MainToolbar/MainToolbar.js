@@ -5,33 +5,24 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CreateIcon from '@material-ui/icons/Create';
+
 import { colorTheme } from '../../shared/styles/colorTheme';
 import { Link } from 'react-router-dom';
-import MaterialUILink from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Hidden from '@material-ui/core/Hidden';
 
 import NavMenu from '../../components/Navigation/NavMenu/NavMenu';
+import UserMenu from '../../components/Navigation/UserMenu/UserMenu';
+import MobileDrawer from '../../components/Navigation/MobileDrawer/MobileDrawer';
 import Logo from '../../components/Logo/Logo';
+
+function IconButtonLink(props) {
+	return <IconButton component={Link} {...props}></IconButton>;
+}
 
 const MainToolbar = (props) => {
 	const { isLoggedIn } = useStore()[0];
-
-	const navMenuItems = {
-		'postit feeds': [{ name: 'Home', link: '/' }],
-		other: [{ name: 'Create Post', link: '/submit' }],
-	};
-
-	let userMenuItems = null;
-	if (isLoggedIn) {
-		userMenuItems = {
-			'more stuff': [{ name: 'Log Out', link: '/logout' }],
-		};
-	} else {
-		userMenuItems = {
-			'more stuff': [{ name: 'Log In / Sign Up', link: '/login' }],
-		};
-	}
 
 	return (
 		<>
@@ -41,15 +32,13 @@ const MainToolbar = (props) => {
 				style={{ backgroundColor: colorTheme.white, color: colorTheme.black }}
 			>
 				<Toolbar>
-					<Grid container justify="space-between">
+					<Grid container justify="space-between" alignItems="center">
 						<Box>
-							<MaterialUILink component={Link} to="/">
+							<IconButtonLink to="/">
 								<Logo />
-							</MaterialUILink>
-
-							{isLoggedIn ? (
-								<NavMenu showPathName items={navMenuItems} coloredIcons />
-							) : null}
+							</IconButtonLink>
+							{/* <MaterialUILink component={Link} to="/"></MaterialUILink> */}
+							<Hidden smDown>{isLoggedIn ? <NavMenu /> : null}</Hidden>
 						</Box>
 						<Box>
 							{isLoggedIn ? (
@@ -61,23 +50,29 @@ const MainToolbar = (props) => {
 									<CreateIcon />
 								</IconButton>
 							) : null}
+							<Hidden smDown>
+								{!isLoggedIn ? (
+									<>
+										<Button variant="contained" onClick={props.handleLogin}>
+											Log Inn
+										</Button>
+										<Button variant="contained" onClick={props.handleSignup}>
+											Sign Up
+										</Button>
+									</>
+								) : null}
 
-							{!isLoggedIn ? (
-								<>
-									<Button variant="contained" onClick={props.handleLogin}>
-										Log Inn
-									</Button>
-									<Button variant="contained" onClick={props.handleSignup}>
-										Sign Up
-									</Button>
-								</>
-							) : null}
-
-							<NavMenu
-								showUser
-								items={userMenuItems}
-								handleLogin={props.handleLogin}
-							/>
+								<UserMenu
+									handleLogin={props.handleLogin}
+									isLoggedIn={isLoggedIn}
+								/>
+							</Hidden>
+							<Hidden mdUp>
+								<MobileDrawer
+									handleLogin={props.handleLogin}
+									isLoggedIn={isLoggedIn}
+								/>
+							</Hidden>
 						</Box>
 					</Grid>
 				</Toolbar>

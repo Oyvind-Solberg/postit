@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useStore } from './store/store';
+import React from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';

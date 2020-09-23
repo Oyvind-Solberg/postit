@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import HomeIcon from '@material-ui/icons/Home';
-import CreateIcon from '@material-ui/icons/Create';
-import ForumIcon from '@material-ui/icons/Forum';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+// import ForumIcon from '@material-ui/icons/Forum';
+import PersonIcon from '@material-ui/icons/Person';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
@@ -30,25 +30,7 @@ const StyledMenu = withStyles({})((props) => (
 ));
 
 const NavMenu = (props) => {
-	const [currentPage, setCurrentPage] = useState('Home');
-	const [anchorEl, setAnchorEl] = React.useState(null);
-
-	useEffect(() => {
-		let pathName = window.location.pathname;
-
-		switch (pathName) {
-			case '/':
-				pathName = 'Home';
-				break;
-			case '/submit':
-				pathName = 'Create Post';
-				break;
-
-			default:
-				break;
-		}
-		setCurrentPage(pathName);
-	}, [setCurrentPage, props.showPathName]);
+	const [anchorEl, setAnchorEl] = useState(null);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -60,13 +42,13 @@ const NavMenu = (props) => {
 
 	const selectIcon = (name) => {
 		switch (name) {
-			case 'Home':
-				return <HomeIcon />;
-			case 'Create Post':
-				return <CreateIcon />;
+			case 'Log In / Sign Up':
+				return <ExitToAppIcon />;
+			case 'Log Out':
+				return <ExitToAppIcon />;
 
 			default:
-				return <ForumIcon />;
+				return null;
 		}
 	};
 
@@ -90,8 +72,8 @@ const NavMenu = (props) => {
 				aria-haspopup="true"
 				onClick={handleClick}
 			>
-				{selectIcon(currentPage)}
-				{currentPage}
+				<PersonIcon />
+				{props.userName}
 				<ExpandMoreIcon />
 			</Button>
 			<StyledMenu
@@ -101,10 +83,17 @@ const NavMenu = (props) => {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-				<ListSubheader>Postit Feeds</ListSubheader>
-				{populateItems([{ name: 'Home', link: '/' }])}
-				<ListSubheader>Other</ListSubheader>
-				{populateItems([{ name: 'Create Post', link: '/submit' }])}
+				<div onClick={handleClose}>
+					<ListSubheader>More Stuff</ListSubheader>
+					{props.isLoggedIn ? (
+						populateItems([{ name: 'Log Out', link: '/logout' }])
+					) : (
+						<MenuItem onClick={props.handleLogin}>
+							<ListItemIcon>{selectIcon('Log In / Sign Up')}</ListItemIcon>
+							<ListItemText primary={'Log In / Sign Up'} />
+						</MenuItem>
+					)}
+				</div>
 			</StyledMenu>
 		</>
 	);

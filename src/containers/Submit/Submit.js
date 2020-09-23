@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import MaterialUILink from '@material-ui/core/Link';
 import styled from 'styled-components';
 import { useStore } from '../../store/store';
 
@@ -37,8 +36,6 @@ const Submit = (props) => {
 		let input = event.target.value;
 		setText(input);
 	};
-
-	const handleCancel = () => {};
 
 	const handleSubmit = () => {
 		dispatch('SUBMIT_POST', { title, text });

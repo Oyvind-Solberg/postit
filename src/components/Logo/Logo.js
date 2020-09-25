@@ -1,10 +1,10 @@
 import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItem from '@material-ui/core/ListItem';
+import Typography from '@material-ui/core/Typography';
 
 function LogoIcon(props) {
 	return (
@@ -22,15 +22,12 @@ function LogoIcon(props) {
 const Logo = (props) => {
 	return (
 		<>
-			<ListItem component="span">
-				<ListItemIcon>
-					<LogoIcon style={{ color: 'black' }} />
-				</ListItemIcon>
-
-				<Hidden mdDown>
-					<ListItemText primary="postit" />
-				</Hidden>
-			</ListItem>
+			<Grid container justify="center" alignItems="center">
+				<LogoIcon style={{ color: 'black' }} />
+			</Grid>
+			<Hidden mdDown>
+				<Typography>postit</Typography>
+			</Hidden>
 		</>
 	);
 };

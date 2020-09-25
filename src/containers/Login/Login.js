@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import styled from 'styled-components';
 import { useStore } from '../../store/store';
+import PageNav from '../../components/Navigation/PageNav/PageNav';
 
 const Container = styled.div`
-	max-height: 100vh;
+	height: 100%;
 	overflow: hidden;
 	background-color: white;
+	padding: 2rem;
 `;
 
 const Login = (props) => {
@@ -55,6 +58,9 @@ const Login = (props) => {
 
 	return (
 		<Container>
+			<Hidden mdUp>
+				<PageNav />
+			</Hidden>
 			<Typography>Login</Typography>
 			<form>
 				<TextField
@@ -85,10 +91,15 @@ const Login = (props) => {
 				</Button>
 			</form>
 			<Typography>
-				New to Postit?{' '}
-				<MaterialUILink component={Link} to="/register">
-					Sign Up
-				</MaterialUILink>
+				New to Postit?
+				<Hidden mdUp>
+					<MaterialUILink component={Link} to="/register">
+						Sign Up
+					</MaterialUILink>
+				</Hidden>
+				<Hidden smDown>
+					<Button onClick={props.handleSignupDialog}>Sign Up</Button>
+				</Hidden>
 			</Typography>
 		</Container>
 	);

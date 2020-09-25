@@ -6,11 +6,14 @@ import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import styled from 'styled-components';
 import { useStore } from '../../store/store';
+import Hidden from '@material-ui/core/Hidden';
+import PageNav from '../../components/Navigation/PageNav/PageNav';
 
 const Container = styled.div`
-	max-height: 100vh;
+	height: 100%;
 	overflow: hidden;
 	background-color: white;
+	padding: 2rem;
 `;
 
 const Register = (props) => {
@@ -107,10 +110,15 @@ const Register = (props) => {
 					</Button>
 				</form>
 				<Typography>
-					New to Postit?{' '}
-					<MaterialUILink component={Link} to="/register">
-						Sign Up
-					</MaterialUILink>
+					Already a postitor?
+					<Hidden mdUp>
+						<MaterialUILink component={Link} to="/login">
+							Log In
+						</MaterialUILink>
+					</Hidden>
+					<Hidden smDown>
+						<Button onClick={props.handleLoginDialog}>Log In</Button>
+					</Hidden>
 				</Typography>
 			</>
 		);
@@ -138,7 +146,10 @@ const Register = (props) => {
 						onChange={handlePasswordChange}
 						value={password}
 					/>
-					<Button onClick={handleBack}>Back</Button>
+					<Hidden smDown>
+						<Button onClick={handleBack}>Back</Button>
+					</Hidden>
+
 					<Button
 						onClick={handleSubmit}
 						variant="contained"
@@ -152,7 +163,14 @@ const Register = (props) => {
 		);
 	};
 
-	return <Container>{formStep === 1 ? formStep1() : formStep2()}</Container>;
+	return (
+		<Container>
+			<Hidden mdUp>
+				<PageNav handleBack={handleBack} formStep={formStep} />
+			</Hidden>
+			{formStep === 1 ? formStep1() : formStep2()}
+		</Container>
+	);
 };
 
 export default Register;

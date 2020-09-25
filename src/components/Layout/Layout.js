@@ -13,23 +13,30 @@ const Layout = (props) => {
 		setDialogOpen(false);
 	};
 
-	const handleLogin = () => {
-		setDialogOpen(true);
+	const handleLoginDialog = () => {
+		if (!dialogOpen) setDialogOpen(true);
 		setDialogContent('login');
 	};
 
-	const handleSignup = () => {
-		setDialogOpen(true);
+	const handleSignupDialog = () => {
+		if (!dialogOpen) setDialogOpen(true);
 		setDialogContent('signup');
 	};
 
 	return (
 		<>
 			<header>
-				<MainToolbar handleLogin={handleLogin} handleSignup={handleSignup} />
+				<MainToolbar
+					handleLogin={handleLoginDialog}
+					handleSignup={handleSignupDialog}
+				/>
 			</header>
 			<Dialog open={dialogOpen} onClose={handleDialogClose}>
-				{dialogContent === 'login' ? <Login /> : <Register />}
+				{dialogContent === 'login' ? (
+					<Login handleSignupDialog={handleSignupDialog} />
+				) : (
+					<Register handleLoginDialog={handleLoginDialog} />
+				)}
 			</Dialog>
 			<main>
 				<Container>{props.children}</Container>

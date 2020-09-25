@@ -1,4 +1,5 @@
 import React from 'react';
+import { useStore } from '../../store/store';
 import Layout from '../../components/Layout/Layout';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -39,6 +40,7 @@ const posts = [
 ];
 
 const Feed = (props) => {
+	const { isLoggedIn } = useStore()[0];
 	const content = posts.map(({ title, text, id }) => {
 		return (
 			<Card key={id}>
@@ -51,18 +53,20 @@ const Feed = (props) => {
 	});
 	return (
 		<Layout>
-			<Card>
-				<CardContent>
-					<MaterialUILink component={Link} to="/submit">
-						<TextField
-							id="outlined-basic"
-							label="Create Post"
-							variant="outlined"
-							fullWidth
-						/>
-					</MaterialUILink>
-				</CardContent>
-			</Card>
+			{isLoggedIn ? (
+				<Card>
+					<CardContent>
+						<MaterialUILink component={Link} to="/submit">
+							<TextField
+								id="outlined-basic"
+								label="Create Post"
+								variant="outlined"
+								fullWidth
+							/>
+						</MaterialUILink>
+					</CardContent>
+				</Card>
+			) : null}
 			{content}
 		</Layout>
 	);

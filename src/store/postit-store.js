@@ -1,16 +1,23 @@
 import { initStore } from './store';
+import * as firebase from '../firebase/index';
 // import axios from '../axios-FirebaseAPI';
 
 const configureStore = () => {
 	const asyncActions = {
 		LOG_IN: (globalState, payload) => {
-			console.log('Store: Logged In!');
+			firebase.signInUser(payload.email, payload.password).catch((error) => {
+				console.log(error.code, error.message);
+			});
 		},
 		SIGN_UP: (globalState, payload) => {
-			console.log('Store: Signed Up!');
+			firebase.createUser(payload.email, payload.password).catch((error) => {
+				console.log(error.code, error.message);
+			});
 		},
 		LOG_OUT: (globalState, payload) => {
-			console.log('Store: Logged Out!');
+			firebase.signOut().catch((error) => {
+				console.log(error.code, error.message);
+			});
 		},
 		SUBMIT_POST: (globalState, payload) => {
 			console.log('Store: Post submitted!');
@@ -26,12 +33,16 @@ const configureStore = () => {
 		SET_USERID: (globalState, payload) => {
 			return { userID: payload };
 		},
+		SET_IS_LOADING: (globalState, payload) => {
+			return { isLoading: payload };
+		},
 	};
 
 	initStore(asyncActions, actions, {
-		isLoggedIn: false,
+		isLoggedIn: null,
 		username: null,
 		userID: null,
+		isLoading: true,
 	});
 };
 

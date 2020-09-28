@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -22,6 +23,7 @@ const Login = (props) => {
 	const [formIsValid, setFormIsValid] = useState(false);
 
 	const dispatch = useStore(false)[1];
+	const { isLoggedIn } = useStore()[0];
 
 	const simpleValidation = (newValue) => {
 		let currentEmail;
@@ -57,51 +59,55 @@ const Login = (props) => {
 	};
 
 	return (
-		<Container>
-			<Hidden mdUp>
-				<PageNav />
-			</Hidden>
-			<Typography>Login</Typography>
-			<form>
-				<TextField
-					id="email"
-					label="Email"
-					type="email"
-					required
-					fullWidth
-					onChange={handleEmailChange}
-					value={email}
-				/>
-				<TextField
-					id="password"
-					label="Password"
-					required
-					type="password"
-					fullWidth
-					onChange={handlePasswordChange}
-					value={password}
-				/>
-				<Button
-					onClick={handleSubmit}
-					variant="contained"
-					fullWidth
-					disabled={!formIsValid}
-				>
-					Log In
-				</Button>
-			</form>
-			<Typography>
-				New to Postit?
+		<>
+			{isLoggedIn ? <Redirect to="/" /> : null}
+
+			<Container>
 				<Hidden mdUp>
-					<MaterialUILink component={Link} to="/register">
-						Sign Up
-					</MaterialUILink>
+					<PageNav />
 				</Hidden>
-				<Hidden smDown>
-					<Button onClick={props.handleSignupDialog}>Sign Up</Button>
-				</Hidden>
-			</Typography>
-		</Container>
+				<Typography>Login</Typography>
+				<form>
+					<TextField
+						id="email"
+						label="Email"
+						type="email"
+						required
+						fullWidth
+						onChange={handleEmailChange}
+						value={email}
+					/>
+					<TextField
+						id="password"
+						label="Password"
+						required
+						type="password"
+						fullWidth
+						onChange={handlePasswordChange}
+						value={password}
+					/>
+					<Button
+						onClick={handleSubmit}
+						variant="contained"
+						fullWidth
+						disabled={!formIsValid}
+					>
+						Log In
+					</Button>
+				</form>
+				<Typography>
+					New to Postit?
+					<Hidden mdUp>
+						<MaterialUILink component={Link} to="/register">
+							Sign Up
+						</MaterialUILink>
+					</Hidden>
+					<Hidden smDown>
+						<Button onClick={props.handleSignupDialog}>Sign Up</Button>
+					</Hidden>
+				</Typography>
+			</Container>
+		</>
 	);
 };
 

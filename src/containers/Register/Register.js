@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -25,6 +26,7 @@ const Register = (props) => {
 	const [formStep, setFormStep] = useState(1);
 
 	const dispatch = useStore(false)[1];
+	const { isLoggedIn } = useStore()[0];
 
 	const simpleValidationStep1 = (newValue) => {
 		let userName;
@@ -164,12 +166,15 @@ const Register = (props) => {
 	};
 
 	return (
-		<Container>
-			<Hidden mdUp>
-				<PageNav handleBack={handleBack} formStep={formStep} />
-			</Hidden>
-			{formStep === 1 ? formStep1() : formStep2()}
-		</Container>
+		<>
+			{isLoggedIn ? <Redirect to="/" /> : null}
+			<Container>
+				<Hidden mdUp>
+					<PageNav handleBack={handleBack} formStep={formStep} />
+				</Hidden>
+				{formStep === 1 ? formStep1() : formStep2()}
+			</Container>
+		</>
 	);
 };
 

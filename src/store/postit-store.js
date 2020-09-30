@@ -4,45 +4,53 @@ import * as firebase from '../firebase/index';
 
 const configureStore = () => {
 	const asyncActions = {
-		LOG_IN: (globalState, payload) => {
-			firebase.signInUser(payload.email, payload.password).catch((error) => {
+		LOG_IN: async (globalState, payload) => {
+			await firebase
+				.signInUser(payload.email, payload.password)
+				.catch((error) => {
+					console.log(error.code, error.message);
+				});
+			return { isLoading: false };
+		},
+		SIGN_UP: async (globalState, payload) => {
+			const username = await firebase
+				.createUser(payload.email, payload.password, payload.username)
+				.catch((error) => {
+					console.log(error.code, error.message);
+				});
+			return { isLoading: false, user: { username } };
+		},
+		LOG_OUT: async (globalState, payload) => {
+			await firebase.signOut().catch((error) => {
 				console.log(error.code, error.message);
 			});
+			return { isLoading: false };
 		},
-		SIGN_UP: (globalState, payload) => {
-			firebase.createUser(payload.email, payload.password).catch((error) => {
-				console.log(error.code, error.message);
-			});
-		},
-		LOG_OUT: (globalState, payload) => {
-			firebase.signOut().catch((error) => {
-				console.log(error.code, error.message);
-			});
-		},
-		SUBMIT_POST: (globalState, payload) => {
-			console.log('Store: Post submitted!');
+		SUBMIT_POST: async (globalState, payload) => {
+			await firebase
+				.submitPost(payload.title, payload.text, globalState.user.username)
+				.catch((error) => {
+					console.log(error.code, error.message);
+				});
+			return { isLoading: false };
 		},
 	};
 	const actions = {
 		SET_IS_LOGGED_IN: (globalState, payload) => {
 			return { isLoggedIn: payload };
 		},
-		SET_USERNAME: (globalState, payload) => {
-			return { username: payload };
-		},
-		SET_USERID: (globalState, payload) => {
-			return { userID: payload };
-		},
 		SET_IS_LOADING: (globalState, payload) => {
 			return { isLoading: payload };
+		},
+		SET_USER: (globalState, payload) => {
+			return { user: payload };
 		},
 	};
 
 	initStore(asyncActions, actions, {
 		isLoggedIn: null,
-		username: null,
-		userID: null,
 		isLoading: true,
+		user: null,
 	});
 };
 

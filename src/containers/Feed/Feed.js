@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '../../store/store';
 import Layout from '../../components/Layout/Layout';
 import Card from '@material-ui/core/Card';
@@ -7,44 +7,48 @@ import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-
-const posts = [
-	{
-		id: '4tegydf45ety6e4u67',
-		title: 'Nice looking post!',
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula at ex quis venenatis. Cras venenatis urna at nisl pharetra, ut vulputate enim sagittis',
-		createdAt: Date.now(),
-	},
-	{
-		id: '4tegyd745ety6e4u67',
-		title: 'Nice looking post!',
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula at ex quis venenatis. Cras venenatis urna at nisl pharetra, ut vulputate enim sagittis',
-		createdAt: Date.now(),
-	},
-	{
-		id: '4tegydf45et36e4u67',
-		title: 'Nice looking post!',
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula at ex quis venenatis. Cras venenatis urna at nisl pharetra, ut vulputate enim sagittis',
-		createdAt: Date.now(),
-	},
-	{
-		id: '48egydf45ety6e4u67',
-		title: 'Nice looking post!',
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula at ex quis venenatis. Cras venenatis urna at nisl pharetra, ut vulputate enim sagittis',
-		createdAt: Date.now(),
-	},
-];
+import * as firebase from '../../firebase/index';
 
 const Feed = (props) => {
 	const { isLoggedIn } = useStore()[0];
-	const content = posts.map(({ title, text, id }) => {
+	const [posts, setPosts] = useState([]);
+
+	useEffect(() => {
+		// let unmounted = false;
+
+		const unsubscribe = firebase.subscribeToCollection(
+			'posts',
+			(querySnapshot) => {
+				const data = [];
+				querySnapshot.forEach((doc) => {
+					data.push(doc.data());
+				});
+
+				// if (!unmounted) {
+				setPosts(data);
+				// }
+			}
+		);
+
+		return () => {
+			unsubscribe();
+			// unmounted = true;
+		};
+	}, []);
+
+	const content = posts.map(({ title, text, author, createdAt }) => {
+		const date = new Date(createdAt);
+		const time =
+			('0' + date.getHours()).slice(-2) +
+			':' +
+			('0' + date.getMinutes()).slice(-2);
+
 		return (
-			<Card key={id}>
+			<Card key={createdAt}>
 				<CardContent>
+					<Typography>
+						Posted by {author} at {date.toDateString()}, {time}
+					</Typography>
 					<Typography>{title}</Typography>
 					<Typography>{text}</Typography>
 				</CardContent>

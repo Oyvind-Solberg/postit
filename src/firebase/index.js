@@ -22,8 +22,13 @@ const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 const storage = firebaseApp.storage();
 
-export async function createUser(email, password) {
+export async function createUser(email, password, username) {
 	await auth.createUserWithEmailAndPassword(email, password);
+	await auth.currentUser.updateProfile({
+		displayName: username,
+	});
+	const displayName = await auth.currentUser.displayName;
+	return displayName;
 }
 
 export async function signInUser(email, password) {
@@ -36,4 +41,20 @@ export function checkAuth(callback) {
 
 export async function signOut() {
 	await auth.signOut();
+}
+
+export function subscribeToCollection(collection, callback) {
+	return db
+		.collection(collection)
+		.orderBy('createdAt', 'desc')
+		.onSnapshot(callback);
+}
+
+export async function submitPost(title, text, author) {
+	await db.collection('posts').add({
+		author,
+		title,
+		text,
+		createdAt: Date.now(),
+	});
 }

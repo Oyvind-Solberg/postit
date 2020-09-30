@@ -18,7 +18,8 @@ const Submit = (props) => {
 	const [text, setText] = useState('');
 	const [formIsValid, setFormIsValid] = useState(false);
 
-	const dispatch = useStore(false)[1];
+	const asyncDispatch = useStore(false)[1];
+	const dispatch = useStore(false)[2];
 
 	const simpleValidation = (newValue) => {
 		if (newValue === '') {
@@ -37,8 +38,10 @@ const Submit = (props) => {
 		setText(input);
 	};
 
-	const handleSubmit = () => {
-		dispatch('SUBMIT_POST', { title, text });
+	const handleSubmit = (event) => {
+		asyncDispatch('SUBMIT_POST', { title, text });
+		dispatch('SET_IS_LOADING', true);
+		props.history.push({ pathname: '/' });
 	};
 
 	return (

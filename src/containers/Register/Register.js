@@ -25,7 +25,8 @@ const Register = (props) => {
 	const [formIsValidStep2, setFormIsValidStep2] = useState(false);
 	const [formStep, setFormStep] = useState(1);
 
-	const dispatch = useStore(false)[1];
+	const asyncDispatch = useStore(false)[1];
+	const dispatch = useStore(false)[2];
 	const { isLoggedIn } = useStore()[0];
 
 	const simpleValidationStep1 = (newValue) => {
@@ -76,7 +77,8 @@ const Register = (props) => {
 	};
 
 	const handleSubmit = () => {
-		dispatch('SIGN_UP', { email, password });
+		asyncDispatch('SIGN_UP', { email, password, username });
+		dispatch('SET_IS_LOADING', true);
 	};
 
 	const handleContinue = () => {

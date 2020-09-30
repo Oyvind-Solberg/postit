@@ -22,7 +22,8 @@ const Login = (props) => {
 	const [password, setPassword] = useState('');
 	const [formIsValid, setFormIsValid] = useState(false);
 
-	const dispatch = useStore(false)[1];
+	const asynchDispatch = useStore(false)[1];
+	const dispatch = useStore(false)[2];
 	const { isLoggedIn } = useStore()[0];
 
 	const simpleValidation = (newValue) => {
@@ -55,7 +56,8 @@ const Login = (props) => {
 	};
 
 	const handleSubmit = () => {
-		dispatch('LOG_IN', { email, password });
+		asynchDispatch('LOG_IN', { email, password });
+		dispatch('SET_IS_LOADING', true);
 	};
 
 	return (

@@ -3,9 +3,11 @@ import { Redirect } from 'react-router-dom';
 import { useStore } from '../../store/store';
 
 const Logout = (props) => {
-	const dispatch = useStore()[1];
+	const asyncDispatch = useStore(false)[1];
+	const dispatch = useStore(false)[2];
 	useEffect(() => {
-		dispatch('LOG_OUT');
+		asyncDispatch('LOG_OUT');
+		dispatch('SET_IS_LOADING', true);
 	}, []);
 
 	return <Redirect to="/" />;

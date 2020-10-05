@@ -17,6 +17,7 @@ function App() {
 	const theme = createMuiTheme({
 		typography: {
 			htmlFontSize: 10,
+			fontSize: 9,
 		},
 		palette: {
 			primary: {

@@ -11,54 +11,82 @@ import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Hidden from '@material-ui/core/Hidden';
+import { withStyles } from '@material-ui/core/styles';
 
 import NavMenu from '../../components/Navigation/NavMenu/NavMenu';
 import UserMenu from '../../components/Navigation/UserMenu/UserMenu';
 import MobileDrawer from '../../components/Navigation/MobileDrawer/MobileDrawer';
-import Logo from '../../components/Logo/Logo';
+import Typography from '@material-ui/core/Typography';
+
+const StyledIconButton = withStyles({
+	root: {
+		borderRadius: '0',
+	},
+})(IconButton);
 
 function IconButtonLink(props) {
-	return <IconButton component={Link} {...props}></IconButton>;
+	return <StyledIconButton component={Link} {...props}></StyledIconButton>;
 }
+
+const StyledAppBar = withStyles({
+	root: {
+		backgroundColor: colorTheme.white,
+	},
+})(AppBar);
 
 const MainToolbar = (props) => {
 	const { isLoggedIn } = useStore()[0];
 
 	return (
 		<>
-			<AppBar
-				position="static"
-				elevation={0}
-				style={{ backgroundColor: colorTheme.white, color: colorTheme.black }}
-			>
+			<StyledAppBar position="static" elevation={0}>
 				<Toolbar>
 					<Grid container justify="space-between" alignItems="center">
 						<Box>
-							<IconButtonLink to="/">
-								<Logo />
-							</IconButtonLink>
-							{/* <MaterialUILink component={Link} to="/"></MaterialUILink> */}
+							<Button component={Link} to="/">
+								<Typography variant="h1">
+									<Box
+										mr={2}
+										fontSize="1.2rem"
+										fontFamily="'M PLUS Rounded 1c'"
+									>
+										postit
+									</Box>
+								</Typography>
+							</Button>
 							<Hidden smDown>{isLoggedIn ? <NavMenu /> : null}</Hidden>
 						</Box>
 						<Box>
 							{isLoggedIn ? (
-								<IconButton
+								<StyledIconButton
 									aria-label="create post"
 									component={Link}
 									to="/submit"
 								>
 									<CreateIcon />
-								</IconButton>
+								</StyledIconButton>
 							) : null}
 							<Hidden smDown>
 								{!isLoggedIn ? (
 									<>
-										<Button variant="contained" onClick={props.handleLogin}>
+										<Button
+											color="primary"
+											variant="outlined"
+											size="small"
+											onClick={props.handleLogin}
+										>
 											Log Inn
 										</Button>
-										<Button variant="contained" onClick={props.handleSignup}>
-											Sign Up
-										</Button>
+										<Box component="span" mx={1}>
+											<Button
+												color="primary"
+												variant="contained"
+												size="small"
+												onClick={props.handleSignup}
+											>
+												Sign Up
+											</Button>
+										</Box>
 									</>
 								) : null}
 
@@ -76,7 +104,7 @@ const MainToolbar = (props) => {
 						</Box>
 					</Grid>
 				</Toolbar>
-			</AppBar>
+			</StyledAppBar>
 		</>
 	);
 };

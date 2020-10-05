@@ -13,7 +13,14 @@ import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 
-const StyledMenu = withStyles({})((props) => (
+const StyledMenu = withStyles({
+	paper: {
+		border: '1px solid lightgrey',
+		borderTop: 'none',
+		borderTopLeftRadius: '0',
+		borderTopRightRadius: '0',
+	},
+})((props) => (
 	<Menu
 		elevation={0}
 		getContentAnchorEl={null}
@@ -28,6 +35,13 @@ const StyledMenu = withStyles({})((props) => (
 		{...props}
 	/>
 ));
+
+const StyledListSubheader = withStyles({
+	root: {
+		paddingTop: '0',
+		paddingBottom: '0',
+	},
+})(ListSubheader);
 
 const NavMenu = (props) => {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -84,7 +98,7 @@ const NavMenu = (props) => {
 				onClose={handleClose}
 			>
 				<div onClick={handleClose}>
-					<ListSubheader>More Stuff</ListSubheader>
+					<StyledListSubheader>More Stuff</StyledListSubheader>
 					{props.isLoggedIn ? (
 						populateItems([{ name: 'Log Out', link: '/logout' }])
 					) : (

@@ -25,9 +25,6 @@ const Logo = (props) => {
 			<Grid container justify="center" alignItems="center">
 				<LogoIcon style={{ color: 'black' }} />
 			</Grid>
-			<Hidden mdDown>
-				<Typography>postit</Typography>
-			</Hidden>
 		</>
 	);
 };

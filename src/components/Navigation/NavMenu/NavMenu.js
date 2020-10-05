@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,7 +15,14 @@ import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 
-const StyledMenu = withStyles({})((props) => (
+const StyledMenu = withStyles({
+	paper: {
+		border: '1px solid lightgrey',
+		borderTop: 'none',
+		borderTopLeftRadius: '0',
+		borderTopRightRadius: '0',
+	},
+})((props) => (
 	<Menu
 		elevation={0}
 		getContentAnchorEl={null}
@@ -28,6 +37,27 @@ const StyledMenu = withStyles({})((props) => (
 		{...props}
 	/>
 ));
+
+const NavButton = withStyles({
+	root: {
+		width: '17rem',
+		display: 'inline-flex',
+		justifyContent: 'space-between',
+	},
+})(Button);
+
+const StyledMenuItem = withStyles({
+	root: {
+		width: '17rem',
+	},
+})(MenuItem);
+
+const StyledListSubheader = withStyles({
+	root: {
+		paddingTop: '0',
+		paddingBottom: '0',
+	},
+})(ListSubheader);
 
 const NavMenu = (props) => {
 	const [currentPage, setCurrentPage] = useState('Home');
@@ -61,12 +91,12 @@ const NavMenu = (props) => {
 	const selectIcon = (name) => {
 		switch (name) {
 			case 'Home':
-				return <HomeIcon />;
+				return <HomeIcon color="primary" fontSize="small" />;
 			case 'Create Post':
-				return <CreateIcon />;
+				return <CreateIcon color="primary" fontSize="small" />;
 
 			default:
-				return <ForumIcon />;
+				return <ForumIcon color="primary" fontSize="small" />;
 		}
 	};
 
@@ -74,10 +104,10 @@ const NavMenu = (props) => {
 		return items.map((item) => {
 			return (
 				<MaterialUILink key={item} component={Link} to={item.link}>
-					<MenuItem onClick={handleClose}>
+					<StyledMenuItem onClick={handleClose}>
 						<ListItemIcon>{selectIcon(item.name)}</ListItemIcon>
 						<ListItemText primary={item.name} />
-					</MenuItem>
+					</StyledMenuItem>
 				</MaterialUILink>
 			);
 		});
@@ -85,15 +115,23 @@ const NavMenu = (props) => {
 
 	return (
 		<>
-			<Button
+			<NavButton
+				size="small"
 				aria-controls="nav-menu"
 				aria-haspopup="true"
 				onClick={handleClick}
 			>
-				{selectIcon(currentPage)}
-				{currentPage}
+				<Grid container alignItems="center" component="span">
+					<Box component="span" mr={1}>
+						<Grid container alignItems="center" component="span">
+							{selectIcon(currentPage)}
+						</Grid>
+					</Box>
+					{currentPage}
+				</Grid>
+
 				<ExpandMoreIcon />
-			</Button>
+			</NavButton>
 			<StyledMenu
 				id="nav-menu"
 				anchorEl={anchorEl}
@@ -101,9 +139,9 @@ const NavMenu = (props) => {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-				<ListSubheader>Postit Feeds</ListSubheader>
+				<StyledListSubheader>Postit Feeds</StyledListSubheader>
 				{populateItems([{ name: 'Home', link: '/' }])}
-				<ListSubheader>Other</ListSubheader>
+				<StyledListSubheader>Other</StyledListSubheader>
 				{populateItems([{ name: 'Create Post', link: '/submit' }])}
 			</StyledMenu>
 		</>

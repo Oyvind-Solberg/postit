@@ -6,6 +6,20 @@ import Dialog from '@material-ui/core/Dialog';
 import Login from '../../containers/Login/Login';
 import Register from '../../containers/Register/Register';
 import Spinner from '../UI/Spinner/Spinner';
+import styled from 'styled-components';
+import { withStyles } from '@material-ui/core/styles';
+import { colorTheme } from '../../shared/styles/colorTheme';
+
+const StyledDialog = withStyles({
+	paper: {
+		height: '25rem',
+	},
+})(Dialog);
+
+const StyledMain = styled.main`
+	padding: 6rem 0 1.5rem 0;
+	background-color: ${colorTheme.neutral};
+`;
 
 const Layout = (props) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
@@ -45,16 +59,16 @@ const Layout = (props) => {
 							handleSignup={handleSignupDialog}
 						/>
 					</header>
-					<Dialog open={dialogOpen} onClose={handleDialogClose}>
+					<StyledDialog fullWidth open={dialogOpen} onClose={handleDialogClose}>
 						{dialogContent === 'login' ? (
 							<Login handleSignupDialog={handleSignupDialog} />
 						) : (
 							<Register handleLoginDialog={handleLoginDialog} />
 						)}
-					</Dialog>
-					<main>
-						<Container>{props.children}</Container>
-					</main>
+					</StyledDialog>
+					<StyledMain>
+						<Container maxWidth="md">{props.children}</Container>
+					</StyledMain>
 				</>
 			)}
 		</>

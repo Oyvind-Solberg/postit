@@ -3,19 +3,28 @@ import { useStore } from '../../store/store';
 import Layout from '../../components/Layout/Layout';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import * as firebase from '../../firebase/index';
+import { withStyles } from '@material-ui/core/styles';
+
+const PostCard = withStyles({
+	root: {
+		marginBottom: '.8rem',
+		'&:last-child': {
+			marginBottom: '0',
+		},
+	},
+})(Card);
 
 const Feed = (props) => {
 	const { isLoggedIn } = useStore()[0];
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
-		// let unmounted = false;
-
 		const unsubscribe = firebase.subscribeToCollection(
 			'posts',
 			(querySnapshot) => {
@@ -24,15 +33,12 @@ const Feed = (props) => {
 					data.push(doc.data());
 				});
 
-				// if (!unmounted) {
 				setPosts(data);
-				// }
 			}
 		);
 
 		return () => {
 			unsubscribe();
-			// unmounted = true;
 		};
 	}, []);
 
@@ -44,32 +50,45 @@ const Feed = (props) => {
 			('0' + date.getMinutes()).slice(-2);
 
 		return (
-			<Card key={createdAt}>
+			<PostCard elevation={7} key={createdAt}>
 				<CardContent>
-					<Typography>
+					<Typography variant="caption" component="subtitle1">
 						Posted by {author} at {date.toDateString()}, {time}
 					</Typography>
-					<Typography>{title}</Typography>
-					<Typography>{text}</Typography>
+					<Box mt={0.8}>
+						<Typography variant="h6" component="h2">
+							{title}
+						</Typography>
+					</Box>
+					{text ? (
+						<>
+							<Box mt={1.2}>
+								<Typography variant="body1">{text}</Typography>
+							</Box>
+						</>
+					) : null}
 				</CardContent>
-			</Card>
+			</PostCard>
 		);
 	});
 	return (
 		<Layout>
 			{isLoggedIn ? (
-				<Card>
-					<CardContent>
-						<MaterialUILink component={Link} to="/submit">
-							<TextField
-								id="outlined-basic"
-								label="Create Post"
-								variant="outlined"
-								fullWidth
-							/>
-						</MaterialUILink>
-					</CardContent>
-				</Card>
+				<Box mb={2.5}>
+					<Card elevation={7}>
+						<CardContent>
+							<MaterialUILink component={Link} to="/submit">
+								<TextField
+									id="outlined-basic"
+									label="Create Post"
+									variant="outlined"
+									fullWidth
+									size="small"
+								/>
+							</MaterialUILink>
+						</CardContent>
+					</Card>
+				</Box>
 			) : null}
 			{content}
 		</Layout>

@@ -9,12 +9,16 @@ import styled from 'styled-components';
 import { useStore } from '../../store/store';
 import Hidden from '@material-ui/core/Hidden';
 import PageNav from '../../components/Navigation/PageNav/PageNav';
+import Box from '@material-ui/core/Box';
 
 const Container = styled.div`
 	height: 100%;
 	overflow: hidden;
 	background-color: white;
 	padding: 2rem;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
 `;
 
 const Register = (props) => {
@@ -92,36 +96,49 @@ const Register = (props) => {
 	const formStep1 = () => {
 		return (
 			<>
-				<Typography>Sign Up</Typography>
+				<Box mb={3}>
+					<Typography variant="h6" component="h2">
+						Sign Up
+					</Typography>
+				</Box>
 				<form>
 					<TextField
 						id="email"
 						label="Email"
 						type="email"
+						variant="filled"
+						size="small"
 						required
 						fullWidth
 						onChange={handleEmailChange}
 						value={email}
 					/>
-					<Button
-						onClick={handleContinue}
-						variant="contained"
-						fullWidth
-						disabled={!formIsValidStep1}
-						color="primary"
-					>
-						Continue
-					</Button>
+					<Box my={2}>
+						<Button
+							onClick={handleContinue}
+							variant="contained"
+							fullWidth
+							disabled={!formIsValidStep1}
+							color="primary"
+							size="large"
+						>
+							Continue
+						</Button>
+					</Box>
 				</form>
 				<Typography>
 					Already a postitor?
 					<Hidden mdUp>
-						<MaterialUILink component={Link} to="/login">
-							Log In
-						</MaterialUILink>
+						<Box component="span" ml={1}>
+							<MaterialUILink component={Link} to="/login">
+								Log In
+							</MaterialUILink>
+						</Box>
 					</Hidden>
 					<Hidden smDown>
-						<Button onClick={props.handleLoginDialog}>Log In</Button>
+						<Button color="primary" onClick={props.handleLoginDialog}>
+							Log In
+						</Button>
 					</Hidden>
 				</Typography>
 			</>
@@ -131,27 +148,42 @@ const Register = (props) => {
 	const formStep2 = () => {
 		return (
 			<>
-				<Typography>Create your username and password</Typography>
+				<Box mb={3}>
+					<Typography variant="h6" component="h2">
+						Create your username and password
+					</Typography>
+				</Box>
 				<form>
 					<TextField
 						id="username"
 						label="Username"
+						variant="filled"
 						required
 						fullWidth
 						onChange={handleUsernameChange}
 						value={username}
+						size="small"
 					/>
-					<TextField
-						id="password"
-						label="Password"
-						required
-						type="password"
-						fullWidth
-						onChange={handlePasswordChange}
-						value={password}
-					/>
+
+					<Box mt={2} mb={6}>
+						<TextField
+							id="password"
+							label="Password"
+							variant="filled"
+							required
+							type="password"
+							fullWidth
+							onChange={handlePasswordChange}
+							value={password}
+							size="small"
+						/>
+					</Box>
 					<Hidden smDown>
-						<Button onClick={handleBack}>Back</Button>
+						<Box mb={1}>
+							<Button fullWidth onClick={handleBack}>
+								Back
+							</Button>
+						</Box>
 					</Hidden>
 
 					<Button
@@ -159,6 +191,8 @@ const Register = (props) => {
 						variant="contained"
 						disabled={!formIsValidStep2}
 						color="primary"
+						fullWidth
+						size="large"
 					>
 						Sign Up
 					</Button>
@@ -170,12 +204,10 @@ const Register = (props) => {
 	return (
 		<>
 			{isLoggedIn ? <Redirect to="/" /> : null}
-			<Container>
-				<Hidden mdUp>
-					<PageNav handleBack={handleBack} formStep={formStep} />
-				</Hidden>
-				{formStep === 1 ? formStep1() : formStep2()}
-			</Container>
+			<Hidden mdUp>
+				<PageNav handleBack={handleBack} formStep={formStep} />
+			</Hidden>
+			<Container>{formStep === 1 ? formStep1() : formStep2()}</Container>
 		</>
 	);
 };

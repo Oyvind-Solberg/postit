@@ -9,6 +9,15 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
+import { colorTheme } from '../../../shared/styles/colorTheme';
+import { withStyles } from '@material-ui/core/styles';
+
+const StyledDrawer = withStyles({
+	paper: {
+		backgroundColor: colorTheme.primaryDark,
+		color: colorTheme.white,
+	},
+})(Drawer);
 
 function ListItemLink(props) {
 	return <ListItem button component={Link} {...props} />;
@@ -32,10 +41,12 @@ const MobileDrawer = (props) => {
 			onKeyDown={handleDrawerClose}
 		>
 			<List>
-				<ListSubheader>Settings</ListSubheader>
+				<ListSubheader style={{ color: colorTheme.white }}>
+					Settings
+				</ListSubheader>
 				<ListItemLink to={props.isLoggedIn ? '/logout' : '/login'}>
 					<ListItemIcon>
-						<ExitToAppIcon />
+						<ExitToAppIcon style={{ color: colorTheme.white }} />
 					</ListItemIcon>
 					<ListItemText
 						primary={props.isLoggedIn ? 'Log Out' : 'Log In / Sign Up'}
@@ -47,12 +58,20 @@ const MobileDrawer = (props) => {
 
 	return (
 		<>
-			<IconButton aria-label="menu" onClick={handleDrawerOpen}>
+			<IconButton
+				style={{ color: colorTheme.white }}
+				aria-label="menu"
+				onClick={handleDrawerOpen}
+			>
 				<MenuIcon />
 			</IconButton>
-			<Drawer open={isDrawerOpen} onClose={handleDrawerClose} anchor="top">
+			<StyledDrawer
+				open={isDrawerOpen}
+				onClose={handleDrawerClose}
+				anchor="top"
+			>
 				{content}
-			</Drawer>
+			</StyledDrawer>
 		</>
 	);
 };

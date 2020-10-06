@@ -30,7 +30,7 @@ function App() {
 				main: colorTheme.neutral,
 			},
 			background: {
-				default: colorTheme.neutral,
+				default: colorTheme.white,
 			},
 		},
 	});

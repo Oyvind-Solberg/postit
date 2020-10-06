@@ -9,12 +9,16 @@ import MaterialUILink from '@material-ui/core/Link';
 import styled from 'styled-components';
 import { useStore } from '../../store/store';
 import PageNav from '../../components/Navigation/PageNav/PageNav';
+import Box from '@material-ui/core/Box';
 
 const Container = styled.div`
 	height: 100%;
 	overflow: hidden;
 	background-color: white;
 	padding: 2rem;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
 `;
 
 const Login = (props) => {
@@ -64,50 +68,68 @@ const Login = (props) => {
 		<>
 			{isLoggedIn ? <Redirect to="/" /> : null}
 
+			<Hidden mdUp>
+				<PageNav />
+			</Hidden>
 			<Container>
-				<Hidden mdUp>
-					<PageNav />
-				</Hidden>
-				<Typography>Login</Typography>
+				<Box mb={3}>
+					<Typography variant="h6" component="h2">
+						Login
+					</Typography>
+				</Box>
 				<form>
 					<TextField
 						id="email"
 						label="Email"
 						type="email"
+						variant="filled"
 						required
 						fullWidth
+						size="small"
 						onChange={handleEmailChange}
 						value={email}
 					/>
-					<TextField
-						id="password"
-						label="Password"
-						required
-						type="password"
-						fullWidth
-						onChange={handlePasswordChange}
-						value={password}
-					/>
+					<Box mt={2} mb={6}>
+						<TextField
+							id="password"
+							label="Password"
+							variant="filled"
+							required
+							type="password"
+							fullWidth
+							size="small"
+							onChange={handlePasswordChange}
+							value={password}
+						/>
+					</Box>
 					<Button
 						onClick={handleSubmit}
 						variant="contained"
 						fullWidth
 						disabled={!formIsValid}
+						size="large"
+						color="primary"
 					>
 						Log In
 					</Button>
 				</form>
-				<Typography>
-					New to Postit?
-					<Hidden mdUp>
-						<MaterialUILink component={Link} to="/register">
-							Sign Up
-						</MaterialUILink>
-					</Hidden>
-					<Hidden smDown>
-						<Button onClick={props.handleSignupDialog}>Sign Up</Button>
-					</Hidden>
-				</Typography>
+				<Box mt={2}>
+					<Typography>
+						New to Postit?
+						<Hidden mdUp>
+							<Box component="span" ml={1}>
+								<MaterialUILink component={Link} to="/register">
+									Sign Up
+								</MaterialUILink>
+							</Box>
+						</Hidden>
+						<Hidden smDown>
+							<Button color="primary" onClick={props.handleSignupDialog}>
+								Sign Up
+							</Button>
+						</Hidden>
+					</Typography>
+				</Box>
 			</Container>
 		</>
 	);

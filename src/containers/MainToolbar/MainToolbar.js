@@ -17,6 +17,8 @@ import NavMenu from '../../components/Navigation/NavMenu/NavMenu';
 import UserMenu from '../../components/Navigation/UserMenu/UserMenu';
 import MobileDrawer from '../../components/Navigation/MobileDrawer/MobileDrawer';
 import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 const StyledIconButton = withStyles({
 	root: {
@@ -37,14 +39,27 @@ const StyledAppBar = withStyles({
 const MainToolbar = (props) => {
 	const { isLoggedIn } = useStore()[0];
 
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
 	return (
 		<>
-			<StyledAppBar position="static" elevation={0}>
+			<StyledAppBar
+				elevation={15}
+				style={{
+					backgroundColor: isMobile ? colorTheme.primaryDark : colorTheme.white,
+				}}
+			>
 				<Toolbar>
 					<Grid container justify="space-between" alignItems="center">
 						<Box>
 							<Button component={Link} to="/">
-								<Typography variant="h1">
+								<Typography
+									variant="h1"
+									style={{
+										color: isMobile ? colorTheme.white : colorTheme.black,
+									}}
+								>
 									<Box
 										mr={2}
 										fontSize="1.2rem"

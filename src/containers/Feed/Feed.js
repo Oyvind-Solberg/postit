@@ -52,7 +52,7 @@ const Feed = (props) => {
 		return (
 			<PostCard elevation={7} key={createdAt}>
 				<CardContent>
-					<Typography variant="caption" component="subtitle1">
+					<Typography variant="caption" component="p">
 						Posted by {author} at {date.toDateString()}, {time}
 					</Typography>
 					<Box mt={0.8}>

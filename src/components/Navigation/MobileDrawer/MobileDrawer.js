@@ -58,12 +58,8 @@ const MobileDrawer = (props) => {
 
 	return (
 		<>
-			<IconButton
-				style={{ color: colorTheme.white }}
-				aria-label="menu"
-				onClick={handleDrawerOpen}
-			>
-				<MenuIcon />
+			<IconButton aria-label="menu" onClick={handleDrawerOpen}>
+				<MenuIcon style={{ color: colorTheme.white }} />
 			</IconButton>
 			<StyledDrawer
 				open={isDrawerOpen}

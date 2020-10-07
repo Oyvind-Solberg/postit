@@ -78,7 +78,11 @@ const MainToolbar = (props) => {
 									component={Link}
 									to="/submit"
 								>
-									<CreateIcon />
+									<CreateIcon
+										style={{
+											color: isMobile ? colorTheme.white : colorTheme.black,
+										}}
+									/>
 								</StyledIconButton>
 							) : null}
 							<Hidden smDown>

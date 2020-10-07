@@ -12,6 +12,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
+import { colorTheme } from '../../../shared/styles/colorTheme';
+
+const StyledListItemText = withStyles({
+	primary: {
+		color: colorTheme.black,
+	},
+})(ListItemText);
 
 const StyledMenu = withStyles({
 	paper: {
@@ -72,7 +79,7 @@ const NavMenu = (props) => {
 				<MaterialUILink key={item} component={Link} to={item.link}>
 					<MenuItem onClick={handleClose}>
 						<ListItemIcon>{selectIcon(item.name)}</ListItemIcon>
-						<ListItemText primary={item.name} />
+						<StyledListItemText primary={item.name} />
 					</MenuItem>
 				</MaterialUILink>
 			);

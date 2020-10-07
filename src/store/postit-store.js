@@ -5,34 +5,59 @@ import * as firebase from '../firebase/index';
 const configureStore = () => {
 	const asyncActions = {
 		LOG_IN: async (globalState, payload) => {
+			const message = {
+				text: 'You are logged in!',
+				severity: 'success',
+			};
 			await firebase
 				.signInUser(payload.email, payload.password)
 				.catch((error) => {
-					console.log(error.code, error.message);
+					message.text = error.message;
+					message.severity = 'error';
 				});
-			return { isLoading: false };
+			return { isLoading: false, message, showMessage: true };
 		},
 		SIGN_UP: async (globalState, payload) => {
+			const message = {
+				text: 'Welcome to Postit!',
+				severity: 'success',
+			};
 			const username = await firebase
 				.createUser(payload.email, payload.password, payload.username)
 				.catch((error) => {
-					console.log(error.code, error.message);
+					message.text = error.message;
+					message.severity = 'error';
 				});
-			return { isLoading: false, user: { username } };
+			return {
+				isLoading: false,
+				user: { username },
+				message,
+				showMessage: true,
+			};
 		},
 		LOG_OUT: async (globalState, payload) => {
+			const message = {
+				text: 'Your are now logged out!',
+				severity: 'success',
+			};
 			await firebase.signOut().catch((error) => {
-				console.log(error.code, error.message);
+				message.text = error.message;
+				message.severity = 'error';
 			});
-			return { isLoading: false };
+			return { isLoading: false, message, showMessage: true };
 		},
 		SUBMIT_POST: async (globalState, payload) => {
+			const message = {
+				text: 'Post submitted!',
+				severity: 'success',
+			};
 			await firebase
 				.submitPost(payload.title, payload.text, globalState.user.username)
 				.catch((error) => {
-					console.log(error.code, error.message);
+					message.text = error.message;
+					message.severity = 'error';
 				});
-			return { isLoading: false };
+			return { isLoading: false, message, showMessage: true };
 		},
 	};
 	const actions = {
@@ -45,12 +70,17 @@ const configureStore = () => {
 		SET_USER: (globalState, payload) => {
 			return { user: payload };
 		},
+		SET_SHOW_MESSAGE: (globalState, payload) => {
+			return { showMessage: payload };
+		},
 	};
 
 	initStore(asyncActions, actions, {
 		isLoggedIn: null,
 		isLoading: true,
 		user: null,
+		message: { text: null, severity: null },
+		showMessage: false,
 	});
 };
 

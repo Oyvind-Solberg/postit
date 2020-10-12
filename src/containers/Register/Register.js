@@ -10,6 +10,7 @@ import { useStore } from '../../store/store';
 import Hidden from '@material-ui/core/Hidden';
 import PageNav from '../../components/Navigation/PageNav/PageNav';
 import Box from '@material-ui/core/Box';
+import { checkValidity } from '../../shared/utility';
 
 const Container = styled.div`
 	height: 100%;
@@ -23,8 +24,14 @@ const Container = styled.div`
 
 const Register = (props) => {
 	const [email, setEmail] = useState('');
+	const [emailIsValid, setEmailIsValid] = useState(false);
+	const [emailTouched, setEmailTouched] = useState(false);
 	const [password, setPassword] = useState('');
+	const [passwordIsValid, setPasswordIsValid] = useState(false);
+	const [passwordTouched, setPasswordTouched] = useState(false);
 	const [username, setUsername] = useState('');
+	const [usernameIsValid, setUsernameIsValid] = useState(false);
+	const [usernameTouched, setUsernameTouched] = useState(false);
 	const [formIsValidStep1, setFormIsValidStep1] = useState(false);
 	const [formIsValidStep2, setFormIsValidStep2] = useState(false);
 	const [formStep, setFormStep] = useState(1);
@@ -33,51 +40,52 @@ const Register = (props) => {
 	const dispatch = useStore(false)[2];
 	const { isLoggedIn } = useStore()[0];
 
-	const simpleValidationStep1 = (newValue) => {
-		let userName;
-
-		if (newValue.email || newValue.email === '') {
-			userName = newValue.email;
-		}
-
-		if (userName === '') {
-			setFormIsValidStep1(false);
-		} else setFormIsValidStep1(true);
-	};
-
-	const simpleValidationStep2 = (newValue) => {
-		let currentUsername;
-		let currentPassword;
-
-		if (newValue.username || newValue.username === '') {
-			currentUsername = newValue.username;
-			currentPassword = password;
-		} else if (newValue.password || newValue.password === '') {
-			currentPassword = newValue.password;
-			currentUsername = username;
-		}
-
-		if (currentUsername === '' || currentPassword === '') {
+	const checkFormValidity = (username, password) => {
+		if (username && password) {
+			setFormIsValidStep2(true);
+		} else {
 			setFormIsValidStep2(false);
-		} else setFormIsValidStep2(true);
+		}
 	};
 
 	const handleEmailChange = (event) => {
 		let input = event.target.value;
 		setEmail(input);
-		simpleValidationStep1({ email: input });
+		const isValid = checkValidity(input, { isEmail: true });
+		setEmailIsValid(isValid);
+
+		if (isValid) {
+			setFormIsValidStep1(true);
+		} else {
+			setFormIsValidStep1(false);
+		}
+		if (!emailTouched) {
+			setEmailTouched(true);
+		}
 	};
 
 	const handleUsernameChange = (event) => {
 		let input = event.target.value;
 		setUsername(input);
-		simpleValidationStep2({ username: input });
+		const isValid = checkValidity(input, { minLength: 5, maxLength: 32 });
+		setUsernameIsValid(isValid);
+		checkFormValidity(isValid, passwordIsValid);
+
+		if (!usernameTouched) {
+			setUsernameTouched(true);
+		}
 	};
 
 	const handlePasswordChange = (event) => {
 		let input = event.target.value;
 		setPassword(input);
-		simpleValidationStep2({ password: input });
+		const isValid = checkValidity(input, { minLength: 5, maxLength: 32 });
+		setPasswordIsValid(isValid);
+		checkFormValidity(usernameIsValid, isValid);
+
+		if (!passwordTouched) {
+			setPasswordTouched(true);
+		}
 	};
 
 	const handleSubmit = () => {
@@ -112,6 +120,7 @@ const Register = (props) => {
 						fullWidth
 						onChange={handleEmailChange}
 						value={email}
+						error={!emailIsValid && emailTouched}
 					/>
 					<Box my={2}>
 						<Button
@@ -163,6 +172,8 @@ const Register = (props) => {
 						onChange={handleUsernameChange}
 						value={username}
 						size="small"
+						error={!usernameIsValid && usernameTouched}
+						helperText="Username must be at least 5 characters long"
 					/>
 
 					<Box mt={2} mb={6}>
@@ -176,6 +187,8 @@ const Register = (props) => {
 							onChange={handlePasswordChange}
 							value={password}
 							size="small"
+							error={!passwordIsValid && passwordTouched}
+							helperText="Password must be at least 5 characters long"
 						/>
 					</Box>
 					<Hidden smDown>

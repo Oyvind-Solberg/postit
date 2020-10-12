@@ -24,11 +24,6 @@ const ButtonBox = withStyles({
 	},
 })(Box);
 
-const Container = styled.div`
-	height: 100vh;
-	overflow: hidden;
-`;
-
 const Submit = (props) => {
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
@@ -62,62 +57,60 @@ const Submit = (props) => {
 
 	return (
 		<Layout>
-			<Container>
-				<Box mb={2}>
-					<Typography variant="h6" component="h2">
-						Create a post
-					</Typography>
-				</Box>
-				<Paper elevation={7}>
-					<form>
-						<Box p={2}>
+			<Box mb={2}>
+				<Typography variant="h6" component="h2">
+					Create a post
+				</Typography>
+			</Box>
+			<Paper elevation={7}>
+				<form>
+					<Box p={2}>
+						<StyledTextField
+							id="title"
+							label="Title"
+							required
+							fullWidth
+							onChange={handleTitleChange}
+							value={title}
+							variant="outlined"
+							size="small"
+						/>
+						<Box pt={1.3} pb={2}>
 							<StyledTextField
-								id="title"
-								label="Title"
-								required
+								id="text "
+								label="Text (optional)"
+								multiline
+								rows={6}
 								fullWidth
-								onChange={handleTitleChange}
-								value={title}
+								onChange={handleTextChange}
+								value={text}
 								variant="outlined"
 								size="small"
 							/>
-							<Box pt={1.3} pb={2}>
-								<StyledTextField
-									id="text "
-									label="Text (optional)"
-									multiline
-									rows={6}
-									fullWidth
-									onChange={handleTextChange}
-									value={text}
-									variant="outlined"
-									size="small"
-								/>
-							</Box>
-							<ButtonBox>
-								<Box component="span" mr={1.3}>
-									<Button
-										variant="outlined"
-										color="primary"
-										component={Link}
-										to="/"
-									>
-										Cancel
-									</Button>
-								</Box>
-								<Button
-									onClick={handleSubmit}
-									variant="contained"
-									disabled={!formIsValid}
-									color="primary"
-								>
-									Post
-								</Button>
-							</ButtonBox>
 						</Box>
-					</form>
-				</Paper>
-			</Container>
+						<ButtonBox>
+							<Box component="span" mr={1.3}>
+								<Button
+									variant="outlined"
+									color="primary"
+									component={Link}
+									to="/"
+								>
+									Cancel
+								</Button>
+							</Box>
+							<Button
+								onClick={handleSubmit}
+								variant="contained"
+								disabled={!formIsValid}
+								color="primary"
+							>
+								Post
+							</Button>
+						</ButtonBox>
+					</Box>
+				</form>
+			</Paper>
 		</Layout>
 	);
 };

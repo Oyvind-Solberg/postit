@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { useStore } from '../../store/store';
 import PageNav from '../../components/Navigation/PageNav/PageNav';
 import Box from '@material-ui/core/Box';
+import { checkValidity } from '../../shared/utility';
 
 const Container = styled.div`
 	height: 100%;
@@ -23,40 +24,45 @@ const Container = styled.div`
 
 const Login = (props) => {
 	const [email, setEmail] = useState('');
+	const [emailIsValid, setEmailIsValid] = useState(false);
+	const [emailTouched, setEmailTouched] = useState(false);
 	const [password, setPassword] = useState('');
+	const [passwordIsValid, setPasswordIsValid] = useState(false);
+	const [passwordTouched, setPasswordTouched] = useState(false);
 	const [formIsValid, setFormIsValid] = useState(false);
 
 	const asynchDispatch = useStore(false)[1];
 	const dispatch = useStore(false)[2];
 	const { isLoggedIn } = useStore()[0];
 
-	const simpleValidation = (newValue) => {
-		let currentEmail;
-		let currentPassword;
-
-		if (newValue.email || newValue.email === '') {
-			currentEmail = newValue.email;
-			currentPassword = password;
-		} else if (newValue.password || newValue.password === '') {
-			currentPassword = newValue.password;
-			currentEmail = email;
-		}
-
-		if (currentEmail === '' || currentPassword === '') {
+	const checkFormValidity = (email, password) => {
+		if (email && password) {
+			setFormIsValid(true);
+		} else {
 			setFormIsValid(false);
-		} else setFormIsValid(true);
+		}
 	};
 
 	const handleEmailChange = (event) => {
 		let input = event.target.value;
 		setEmail(input);
-		simpleValidation({ email: input });
+		const isValid = checkValidity(input, { isEmail: true });
+		setEmailIsValid(isValid);
+		checkFormValidity(isValid, passwordIsValid);
+		if (!emailTouched) {
+			setEmailTouched(true);
+		}
 	};
 
 	const handlePasswordChange = (event) => {
 		let input = event.target.value;
 		setPassword(input);
-		simpleValidation({ password: input });
+		const isValid = checkValidity(input, { minLength: 5, maxLength: 32 });
+		setPasswordIsValid(isValid);
+		checkFormValidity(emailIsValid, isValid);
+		if (!passwordTouched) {
+			setPasswordTouched(true);
+		}
 	};
 
 	const handleSubmit = () => {
@@ -88,6 +94,7 @@ const Login = (props) => {
 						size="small"
 						onChange={handleEmailChange}
 						value={email}
+						error={!emailIsValid && emailTouched}
 					/>
 					<Box mt={2} mb={6}>
 						<TextField
@@ -100,6 +107,7 @@ const Login = (props) => {
 							size="small"
 							onChange={handlePasswordChange}
 							value={password}
+							error={!passwordIsValid && passwordTouched}
 						/>
 					</Box>
 					<Button

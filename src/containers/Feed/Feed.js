@@ -9,20 +9,36 @@ import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import * as firebase from '../../firebase/index';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import IconButton from '@material-ui/core/IconButton';
+import { colorTheme } from '../../shared/styles/colorTheme';
 
-const PostCard = withStyles({
+const useStyles = makeStyles((theme) => ({
 	root: {
+		display: 'flex',
 		marginBottom: '.8rem',
 		'&:last-child': {
 			marginBottom: '0',
 		},
 	},
-})(Card);
+	votesControls: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'start',
+		alignItems: 'center',
+		backgroundColor: colorTheme.neutralLight,
+		padding: theme.spacing(1),
+	},
+}));
 
 const Feed = (props) => {
 	const { isLoggedIn } = useStore()[0];
 	const [posts, setPosts] = useState([]);
+	const asyncDispatch = useStore(false)[1];
+
+	const classes = useStyles();
 
 	useEffect(() => {
 		const unsubscribe = firebase.subscribeToCollection(
@@ -30,7 +46,7 @@ const Feed = (props) => {
 			(querySnapshot) => {
 				const data = [];
 				querySnapshot.forEach((doc) => {
-					data.push(doc.data());
+					data.push({ ...doc.data(), id: doc.id });
 				});
 
 				setPosts(data);
@@ -42,7 +58,15 @@ const Feed = (props) => {
 		};
 	}, []);
 
-	const content = posts.map(({ title, text, author, createdAt }) => {
+	const handleUpVote = (id) => {
+		asyncDispatch('UPVOTE_POST', id);
+	};
+
+	const handleDownVote = (id) => {
+		asyncDispatch('DOWNVOTE_POST', id);
+	};
+
+	const content = posts.map(({ title, text, author, createdAt, votes, id }) => {
 		const date = new Date(createdAt);
 		const time =
 			('0' + date.getHours()).slice(-2) +
@@ -50,7 +74,28 @@ const Feed = (props) => {
 			('0' + date.getMinutes()).slice(-2);
 
 		return (
-			<PostCard elevation={7} key={createdAt}>
+			<Card className={classes.root} elevation={7} key={id}>
+				<div className={classes.votesControls}>
+					<IconButton
+						size="small"
+						onClick={(id) => {
+							handleUpVote(id);
+						}}
+					>
+						<ArrowUpwardIcon />
+					</IconButton>
+					<Typography variant="subtitle2" component="p">
+						{votes}
+					</Typography>
+					<IconButton
+						size="small"
+						onClick={(id) => {
+							handleDownVote(id);
+						}}
+					>
+						<ArrowDownwardIcon />
+					</IconButton>
+				</div>
 				<CardContent>
 					<Typography variant="caption" component="p">
 						Posted by {author} at {date.toDateString()}, {time}
@@ -68,7 +113,7 @@ const Feed = (props) => {
 						</>
 					) : null}
 				</CardContent>
-			</PostCard>
+			</Card>
 		);
 	});
 	return (

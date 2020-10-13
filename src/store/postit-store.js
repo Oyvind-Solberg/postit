@@ -59,6 +59,20 @@ const configureStore = () => {
 				});
 			return { isLoading: false, message, showMessage: true };
 		},
+		UPVOTE_POST: async (globalState, payload) => {
+			const message = {
+				text: 'Post upvoted!',
+				severity: 'success',
+			};
+			return { message, showMessage: true };
+		},
+		DOWNVOTE_POST: async (globalState, payload) => {
+			const message = {
+				text: 'Post downvoted!',
+				severity: 'success',
+			};
+			return { message, showMessage: true };
+		},
 	};
 	const actions = {
 		SET_IS_LOGGED_IN: (globalState, payload) => {

@@ -46,7 +46,7 @@ export async function signOut() {
 export function subscribeToCollection(collection, callback) {
 	return db
 		.collection(collection)
-		.orderBy('createdAt', 'desc')
+		.orderBy('votes', 'desc')
 		.onSnapshot(callback);
 }
 
@@ -56,5 +56,6 @@ export async function submitPost(title, text, author) {
 		title,
 		text,
 		createdAt: Date.now(),
+		votes: 0,
 	});
 }

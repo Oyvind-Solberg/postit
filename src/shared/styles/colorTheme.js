@@ -3,6 +3,7 @@ export const colorTheme = {
 	primaryDark: '#071b30',
 	secondary: '#ff5722',
 	neutral: '#d7e0e4',
+	neutralLight: '#f1f7fa',
 	white: 'white',
 	black: 'black',
 };

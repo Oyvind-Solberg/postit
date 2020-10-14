@@ -59,11 +59,11 @@ const Feed = (props) => {
 	}, []);
 
 	const handleUpVote = (id) => {
-		asyncDispatch('UPVOTE_POST', id);
+		asyncDispatch('UPVOTE_POST', { id });
 	};
 
 	const handleDownVote = (id) => {
-		asyncDispatch('DOWNVOTE_POST', id);
+		asyncDispatch('DOWNVOTE_POST', { id });
 	};
 
 	const content = posts.map(({ title, text, author, createdAt, votes, id }) => {
@@ -78,7 +78,7 @@ const Feed = (props) => {
 				<div className={classes.votesControls}>
 					<IconButton
 						size="small"
-						onClick={(id) => {
+						onClick={() => {
 							handleUpVote(id);
 						}}
 					>
@@ -89,7 +89,7 @@ const Feed = (props) => {
 					</Typography>
 					<IconButton
 						size="small"
-						onClick={(id) => {
+						onClick={() => {
 							handleDownVote(id);
 						}}
 					>

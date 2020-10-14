@@ -67,7 +67,7 @@ const Register = (props) => {
 	const handleUsernameChange = (event) => {
 		let input = event.target.value;
 		setUsername(input);
-		const isValid = checkValidity(input, { minLength: 5, maxLength: 32 });
+		const isValid = checkValidity(input, { minLength: 4, maxLength: 32 });
 		setUsernameIsValid(isValid);
 		checkFormValidity(isValid, passwordIsValid);
 
@@ -173,7 +173,7 @@ const Register = (props) => {
 						value={username}
 						size="small"
 						error={!usernameIsValid && usernameTouched}
-						helperText="Username must be at least 5 characters long"
+						helperText="Username must be at least 4 characters long"
 					/>
 
 					<Box mt={2} mb={6}>

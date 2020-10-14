@@ -64,6 +64,12 @@ const configureStore = () => {
 				text: 'Post upvoted!',
 				severity: 'success',
 			};
+
+			await firebase.voteOnPost(payload.id, true).catch((error) => {
+				message.text = error.message;
+				message.severity = 'error';
+			});
+
 			return { message, showMessage: true };
 		},
 		DOWNVOTE_POST: async (globalState, payload) => {
@@ -71,6 +77,11 @@ const configureStore = () => {
 				text: 'Post downvoted!',
 				severity: 'success',
 			};
+
+			await firebase.voteOnPost(payload.id, false).catch((error) => {
+				message.text = error.message;
+				message.severity = 'error';
+			});
 			return { message, showMessage: true };
 		},
 	};

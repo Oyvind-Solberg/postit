@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
+import 'firebase/functions';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyCBi6Drpb30GAVxeaUUPqoUvFewdaE6DsA',
@@ -21,6 +22,7 @@ const firebaseApp = !firebase.apps.length
 const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 const storage = firebaseApp.storage();
+const functions = firebaseApp.functions();
 
 export async function createUser(email, password, username) {
 	await auth.createUserWithEmailAndPassword(email, password);
@@ -58,4 +60,9 @@ export async function submitPost(title, text, author) {
 		createdAt: Date.now(),
 		votes: 0,
 	});
+}
+
+export async function voteOnPost(id, isUpvoting) {
+	const vote = functions.httpsCallable('voteOnPost');
+	await vote({ id, isUpvoting });
 }

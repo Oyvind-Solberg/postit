@@ -39,7 +39,7 @@ function App() {
 		firebase.checkAuth((user) => {
 			if (user) {
 				dispatch('SET_IS_LOGGED_IN', true);
-				dispatch('SET_USER', { username: user.displayName });
+				dispatch('SET_USER', { username: user.displayName, uid: user.uid });
 			} else {
 				dispatch('SET_IS_LOGGED_IN', false);
 				dispatch('SET_USER', null);

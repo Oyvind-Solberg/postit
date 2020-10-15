@@ -80,7 +80,7 @@ const Submit = (props) => {
 								id="text "
 								label="Tekst (valgfritt)"
 								multiline
-								rows={6}
+								rows={12}
 								fullWidth
 								onChange={handleTextChange}
 								value={text}

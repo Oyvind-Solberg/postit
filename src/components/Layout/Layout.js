@@ -19,7 +19,7 @@ const StyledDialog = withStyles({
 })(Dialog);
 
 const StyledMain = styled.main`
-	padding: 6rem 0 1.5rem 0;
+	padding: 5.5rem 0 1.5rem 0;
 	background-color: ${colorTheme.neutral};
 	min-height: 100vh;
 `;

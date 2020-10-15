@@ -94,7 +94,7 @@ const MainToolbar = (props) => {
 											size="small"
 											onClick={props.handleLogin}
 										>
-											Log Inn
+											Logg Inn
 										</Button>
 										<Box component="span" mx={1}>
 											<Button
@@ -103,7 +103,7 @@ const MainToolbar = (props) => {
 												size="small"
 												onClick={props.handleSignup}
 											>
-												Sign Up
+												Registrer Deg
 											</Button>
 										</Box>
 									</>

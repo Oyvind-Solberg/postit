@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 import { colorTheme } from '../../../shared/styles/colorTheme';
+import Box from '@material-ui/core/Box';
 
 const StyledListItemText = withStyles({
 	primary: {
@@ -97,7 +98,9 @@ const NavMenu = (props) => {
 				onClick={handleClick}
 			>
 				<PersonIcon />
-				{props.userName}
+				<Box component="span" mx={1}>
+					{props.username}
+				</Box>
 				<ExpandMoreIcon />
 			</Button>
 			<StyledMenu

@@ -38,6 +38,7 @@ const StyledAppBar = withStyles({
 
 const MainToolbar = (props) => {
 	const { isLoggedIn } = useStore()[0];
+	const { user } = useStore()[0];
 
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -112,6 +113,7 @@ const MainToolbar = (props) => {
 								<UserMenu
 									handleLogin={props.handleLogin}
 									isLoggedIn={isLoggedIn}
+									username={user ? user.username : null}
 								/>
 							</Hidden>
 							<Hidden mdUp>

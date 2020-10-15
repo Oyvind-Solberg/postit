@@ -42,14 +42,14 @@ const MobileDrawer = (props) => {
 		>
 			<List>
 				<ListSubheader style={{ color: colorTheme.white }}>
-					Settings
+					Innstillinger
 				</ListSubheader>
 				<ListItemLink to={props.isLoggedIn ? '/logout' : '/login'}>
 					<ListItemIcon>
 						<ExitToAppIcon style={{ color: colorTheme.white }} />
 					</ListItemIcon>
 					<ListItemText
-						primary={props.isLoggedIn ? 'Log Out' : 'Log In / Sign Up'}
+						primary={props.isLoggedIn ? 'Logg Ut' : 'Logg Inn / Registrer Deg'}
 					/>
 				</ListItemLink>
 			</List>

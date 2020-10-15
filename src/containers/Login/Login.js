@@ -80,13 +80,13 @@ const Login = (props) => {
 			<Container>
 				<Box mb={3}>
 					<Typography variant="h6" component="h2">
-						Login
+						Logg Inn
 					</Typography>
 				</Box>
 				<form>
 					<TextField
 						id="email"
-						label="Email"
+						label="Epost"
 						type="email"
 						variant="filled"
 						required
@@ -99,7 +99,7 @@ const Login = (props) => {
 					<Box mt={2} mb={6}>
 						<TextField
 							id="password"
-							label="Password"
+							label="Passord"
 							variant="filled"
 							required
 							type="password"
@@ -118,22 +118,22 @@ const Login = (props) => {
 						size="large"
 						color="primary"
 					>
-						Log In
+						Logg Inn
 					</Button>
 				</form>
 				<Box mt={2}>
 					<Typography>
-						New to Postit?
+						Ny til Postit?
 						<Hidden mdUp>
 							<Box component="span" ml={1}>
 								<MaterialUILink component={Link} to="/register">
-									Sign Up
+									Registrer deg
 								</MaterialUILink>
 							</Box>
 						</Hidden>
 						<Hidden smDown>
 							<Button color="primary" onClick={props.handleSignupDialog}>
-								Sign Up
+								Registrer deg
 							</Button>
 						</Hidden>
 					</Typography>

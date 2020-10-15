@@ -12,7 +12,6 @@ import CreateIcon from '@material-ui/icons/Create';
 import ForumIcon from '@material-ui/icons/Forum';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom';
-import MaterialUILink from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 import { colorTheme } from '../../../shared/styles/colorTheme';
 
@@ -75,10 +74,10 @@ const NavMenu = (props) => {
 
 		switch (pathName) {
 			case '/':
-				pathName = 'Home';
+				pathName = 'Hjem';
 				break;
 			case '/submit':
-				pathName = 'Create Post';
+				pathName = 'Nytt Innlegg';
 				break;
 
 			default:
@@ -97,9 +96,9 @@ const NavMenu = (props) => {
 
 	const selectIcon = (name) => {
 		switch (name) {
-			case 'Home':
+			case 'Hjem':
 				return <HomeIcon color="primary" fontSize="small" />;
-			case 'Create Post':
+			case 'Nytt Innlegg':
 				return <CreateIcon color="primary" fontSize="small" />;
 
 			default:
@@ -110,12 +109,15 @@ const NavMenu = (props) => {
 	const populateItems = (items) => {
 		return items.map((item) => {
 			return (
-				<MaterialUILink key={item} component={Link} to={item.link}>
-					<StyledMenuItem onClick={handleClose}>
-						<ListItemIcon>{selectIcon(item.name)}</ListItemIcon>
-						<StyledListItemText primary={item.name} />
-					</StyledMenuItem>
-				</MaterialUILink>
+				<StyledMenuItem
+					key={item}
+					component={Link}
+					to={item.link}
+					onClick={handleClose}
+				>
+					<ListItemIcon>{selectIcon(item.name)}</ListItemIcon>
+					<StyledListItemText primary={item.name} />
+				</StyledMenuItem>
 			);
 		});
 	};
@@ -147,9 +149,11 @@ const NavMenu = (props) => {
 				onClose={handleClose}
 			>
 				<StyledListSubheader>Postit Feeds</StyledListSubheader>
-				{populateItems([{ name: 'Home', link: '/' }])}
-				<StyledListSubheader>Other</StyledListSubheader>
-				{populateItems([{ name: 'Create Post', link: '/submit' }])}
+				{populateItems([{ name: 'Hjem', link: '/' }])}
+
+				<StyledListSubheader>Annet</StyledListSubheader>
+
+				{populateItems([{ name: 'Nytt Innlegg', link: '/submit' }])}
 			</StyledMenu>
 		</>
 	);

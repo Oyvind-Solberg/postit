@@ -79,7 +79,7 @@ const Register = (props) => {
 	const handlePasswordChange = (event) => {
 		let input = event.target.value;
 		setPassword(input);
-		const isValid = checkValidity(input, { minLength: 5, maxLength: 32 });
+		const isValid = checkValidity(input, { minLength: 8, maxLength: 32 });
 		setPasswordIsValid(isValid);
 		checkFormValidity(usernameIsValid, isValid);
 
@@ -106,13 +106,13 @@ const Register = (props) => {
 			<>
 				<Box mb={3}>
 					<Typography variant="h6" component="h2">
-						Sign Up
+						Registrer Deg
 					</Typography>
 				</Box>
 				<form>
 					<TextField
 						id="email"
-						label="Email"
+						label="Epost"
 						type="email"
 						variant="filled"
 						size="small"
@@ -131,22 +131,22 @@ const Register = (props) => {
 							color="primary"
 							size="large"
 						>
-							Continue
+							Fortsett
 						</Button>
 					</Box>
 				</form>
 				<Typography>
-					Already a postitor?
+					Allerede en postitor?
 					<Hidden mdUp>
 						<Box component="span" ml={1}>
 							<MaterialUILink component={Link} to="/login">
-								Log In
+								Logg Inn
 							</MaterialUILink>
 						</Box>
 					</Hidden>
 					<Hidden smDown>
 						<Button color="primary" onClick={props.handleLoginDialog}>
-							Log In
+							Logg Inn
 						</Button>
 					</Hidden>
 				</Typography>
@@ -159,13 +159,13 @@ const Register = (props) => {
 			<>
 				<Box mb={3}>
 					<Typography variant="h6" component="h2">
-						Create your username and password
+						Opprett brukernavn og passord
 					</Typography>
 				</Box>
 				<form>
 					<TextField
 						id="username"
-						label="Username"
+						label="Brukernavn"
 						variant="filled"
 						required
 						fullWidth
@@ -173,13 +173,13 @@ const Register = (props) => {
 						value={username}
 						size="small"
 						error={!usernameIsValid && usernameTouched}
-						helperText="Username must be at least 4 characters long"
+						helperText="Brukernavnet må være på minst 4 tegn"
 					/>
 
 					<Box mt={2} mb={6}>
 						<TextField
 							id="password"
-							label="Password"
+							label="Passord"
 							variant="filled"
 							required
 							type="password"
@@ -188,13 +188,13 @@ const Register = (props) => {
 							value={password}
 							size="small"
 							error={!passwordIsValid && passwordTouched}
-							helperText="Password must be at least 5 characters long"
+							helperText="Passordet må være på minst 8 tegn"
 						/>
 					</Box>
 					<Hidden smDown>
 						<Box mb={1}>
 							<Button fullWidth onClick={handleBack}>
-								Back
+								Tilbake
 							</Button>
 						</Box>
 					</Hidden>
@@ -207,7 +207,7 @@ const Register = (props) => {
 						fullWidth
 						size="large"
 					>
-						Sign Up
+						Registrer Deg
 					</Button>
 				</form>
 			</>

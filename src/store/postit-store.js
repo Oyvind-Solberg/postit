@@ -6,7 +6,7 @@ const configureStore = () => {
 	const asyncActions = {
 		LOG_IN: async (globalState, payload) => {
 			const message = {
-				text: 'You are logged in!',
+				text: 'Du er nå logget inn!',
 				severity: 'success',
 			};
 			await firebase
@@ -19,7 +19,7 @@ const configureStore = () => {
 		},
 		SIGN_UP: async (globalState, payload) => {
 			const message = {
-				text: 'Welcome to Postit!',
+				text: 'Velkommen til Postit!',
 				severity: 'success',
 			};
 			const username = await firebase
@@ -37,7 +37,7 @@ const configureStore = () => {
 		},
 		LOG_OUT: async (globalState, payload) => {
 			const message = {
-				text: 'Your are now logged out!',
+				text: 'Du er nå logget ut!',
 				severity: 'success',
 			};
 			await firebase.signOut().catch((error) => {
@@ -48,7 +48,7 @@ const configureStore = () => {
 		},
 		SUBMIT_POST: async (globalState, payload) => {
 			const message = {
-				text: 'Post submitted!',
+				text: 'Innlegg publisert!',
 				severity: 'success',
 			};
 			await firebase
@@ -61,7 +61,7 @@ const configureStore = () => {
 		},
 		UPVOTE_POST: async (globalState, payload) => {
 			const message = {
-				text: 'Post upvoted!',
+				text: 'Innlegg oppstemt!',
 				severity: 'success',
 			};
 
@@ -74,7 +74,7 @@ const configureStore = () => {
 		},
 		DOWNVOTE_POST: async (globalState, payload) => {
 			const message = {
-				text: 'Post downvoted!',
+				text: 'Innlegg nedstemt!',
 				severity: 'success',
 			};
 

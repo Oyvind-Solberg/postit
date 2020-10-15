@@ -59,7 +59,7 @@ const Submit = (props) => {
 		<Layout>
 			<Box mb={2}>
 				<Typography variant="h6" component="h2">
-					Create a post
+					Opprett nytt innlegg
 				</Typography>
 			</Box>
 			<Paper elevation={7}>
@@ -67,7 +67,7 @@ const Submit = (props) => {
 					<Box p={2}>
 						<StyledTextField
 							id="title"
-							label="Title"
+							label="Tittel"
 							required
 							fullWidth
 							onChange={handleTitleChange}
@@ -78,7 +78,7 @@ const Submit = (props) => {
 						<Box pt={1.3} pb={2}>
 							<StyledTextField
 								id="text "
-								label="Text (optional)"
+								label="Tekst (valgfritt)"
 								multiline
 								rows={6}
 								fullWidth
@@ -96,7 +96,7 @@ const Submit = (props) => {
 									component={Link}
 									to="/"
 								>
-									Cancel
+									Avbryt
 								</Button>
 							</Box>
 							<Button
@@ -105,7 +105,7 @@ const Submit = (props) => {
 								disabled={!formIsValid}
 								color="primary"
 							>
-								Post
+								Publiser
 							</Button>
 						</ButtonBox>
 					</Box>

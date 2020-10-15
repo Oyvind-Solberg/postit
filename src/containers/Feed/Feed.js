@@ -98,7 +98,7 @@ const Feed = (props) => {
 				</div>
 				<CardContent>
 					<Typography variant="caption" component="p">
-						Posted by {author} at {date.toDateString()}, {time}
+						Publisert av {author} - {date.toDateString()}, {time}
 					</Typography>
 					<Box mt={0.8}>
 						<Typography variant="h6" component="h2">
@@ -125,7 +125,7 @@ const Feed = (props) => {
 							<MaterialUILink component={Link} to="/submit">
 								<TextField
 									id="outlined-basic"
-									label="Create Post"
+									label="Nytt innlegg"
 									variant="outlined"
 									fullWidth
 									size="small"

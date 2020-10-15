@@ -63,9 +63,9 @@ const NavMenu = (props) => {
 
 	const selectIcon = (name) => {
 		switch (name) {
-			case 'Log In / Sign Up':
+			case 'Logg Inn / Registrer Deg':
 				return <ExitToAppIcon />;
-			case 'Log Out':
+			case 'Logg Ut':
 				return <ExitToAppIcon />;
 
 			default:
@@ -76,12 +76,15 @@ const NavMenu = (props) => {
 	const populateItems = (items) => {
 		return items.map((item) => {
 			return (
-				<MaterialUILink key={item} component={Link} to={item.link}>
-					<MenuItem onClick={handleClose}>
-						<ListItemIcon>{selectIcon(item.name)}</ListItemIcon>
-						<StyledListItemText primary={item.name} />
-					</MenuItem>
-				</MaterialUILink>
+				<MenuItem
+					key={item}
+					component={Link}
+					to={item.link}
+					onClick={handleClose}
+				>
+					<ListItemIcon>{selectIcon(item.name)}</ListItemIcon>
+					<StyledListItemText primary={item.name} />
+				</MenuItem>
 			);
 		});
 	};
@@ -104,17 +107,22 @@ const NavMenu = (props) => {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-				<div onClick={handleClose}>
-					<StyledListSubheader>More Stuff</StyledListSubheader>
-					{props.isLoggedIn ? (
-						populateItems([{ name: 'Log Out', link: '/logout' }])
-					) : (
-						<MenuItem onClick={props.handleLogin}>
-							<ListItemIcon>{selectIcon('Log In / Sign Up')}</ListItemIcon>
-							<ListItemText primary={'Log In / Sign Up'} />
-						</MenuItem>
-					)}
-				</div>
+				<StyledListSubheader>Flere valg</StyledListSubheader>
+				{props.isLoggedIn ? (
+					populateItems([{ name: 'Logg Ut', link: '/logout' }])
+				) : (
+					<MenuItem
+						onClick={() => {
+							handleClose();
+							props.handleLogin();
+						}}
+					>
+						<ListItemIcon>
+							{selectIcon('Logg Inn / Registrer Deg')}
+						</ListItemIcon>
+						<ListItemText primary={'Logg Inn / Registrer Deg'} />
+					</MenuItem>
+				)}
 			</StyledMenu>
 		</>
 	);

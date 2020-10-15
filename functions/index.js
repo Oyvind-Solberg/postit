@@ -39,7 +39,7 @@ exports.voteOnPost = functions.https.onCall(async (data, context) => {
 	if (!context.auth) {
 		throw new functions.https.HttpsError(
 			'unauthenticated',
-			'only authenticated users can vote'
+			'Kunn innloggede brukere kan stemme!'
 		);
 	}
 
@@ -55,7 +55,7 @@ exports.voteOnPost = functions.https.onCall(async (data, context) => {
 	if (upvotedOn.includes(data.id) || downvotedOn.includes(data.id)) {
 		throw new functions.https.HttpsError(
 			'failed-precondition',
-			'You can only vote once!'
+			'Du kan kunn stemme en gang per innlegg!'
 		);
 	}
 

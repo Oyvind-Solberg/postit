@@ -24,6 +24,16 @@ exports.userDeleted = functions.auth.user().onDelete((user) => {
 	return doc.delete();
 });
 
+exports.submitPost = functions.https.onCall((data, context) => {
+	return admin.firestore().collection('posts').add({
+		author: data.author,
+		title: data.title,
+		text: data.text,
+		createdAt: Date.now(),
+		votes: 0,
+	});
+});
+
 exports.voteOnPost = functions.https.onCall(async (data, context) => {
 	// Check auth state
 	if (!context.auth) {

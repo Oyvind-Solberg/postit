@@ -53,13 +53,8 @@ export function subscribeToCollection(collection, callback) {
 }
 
 export async function submitPost(title, text, author) {
-	await db.collection('posts').add({
-		author,
-		title,
-		text,
-		createdAt: Date.now(),
-		votes: 0,
-	});
+	const submit = functions.httpsCallable('submitPost');
+	await submit({ author, title, text });
 }
 
 export async function voteOnPost(id, isUpvoting) {

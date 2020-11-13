@@ -5,22 +5,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
-import styled from 'styled-components';
 import { useStore } from '../../store/store';
 import Hidden from '@material-ui/core/Hidden';
 import PageNav from '../../components/Navigation/PageNav/PageNav';
 import Box from '@material-ui/core/Box';
 import { checkValidity } from '../../shared/utility';
-
-const Container = styled.div`
-	height: 100%;
-	overflow: hidden;
-	background-color: white;
-	padding: 2rem;
-	display: flex;
-	justify-content: space-between;
-	flex-direction: column;
-`;
+import Container from '../../components/Layout/Container/Container';
+import BackgroundOverlay from '../../components/Layout/BackgroundOverlay/BackgroundOverlay';
 
 const Register = (props) => {
 	const [email, setEmail] = useState('');
@@ -219,6 +210,7 @@ const Register = (props) => {
 			{isLoggedIn ? <Redirect to="/" /> : null}
 			<Hidden mdUp>
 				<PageNav handleBack={handleBack} formStep={formStep} />
+				<BackgroundOverlay />
 			</Hidden>
 			<Container>{formStep === 1 ? formStep1() : formStep2()}</Container>
 		</>

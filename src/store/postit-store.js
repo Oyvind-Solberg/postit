@@ -59,29 +59,59 @@ const configureStore = () => {
 				});
 			return { isLoading: false, message, showMessage: true };
 		},
-		UPVOTE_POST: async (globalState, payload) => {
+		REPLY_POST: async (globalState, payload) => {
 			const message = {
-				text: 'Innlegg oppstemt!',
+				text: 'Kommentar publisert!',
+				severity: 'success',
+			};
+			await firebase
+				.submitComment(
+					payload.text,
+					payload.parent,
+					payload.post,
+					globalState.user.username
+				)
+				.catch((error) => {
+					message.text = error.message;
+					message.severity = 'error';
+				});
+			return { message, showMessage: true };
+		},
+		UPVOTE: async (globalState, payload) => {
+			let collectionName =
+				payload.collection.norwegianName[0].toUpperCase() +
+				payload.collection.norwegianName.slice(1);
+
+			const message = {
+				text: `${collectionName} oppstemt!`,
 				severity: 'success',
 			};
 
-			await firebase.voteOnPost(payload.id, true).catch((error) => {
-				message.text = error.message;
-				message.severity = 'error';
-			});
+			await firebase
+				.vote(payload.id, true, payload.collection)
+				.catch((error) => {
+					message.text = error.message;
+					message.severity = 'error';
+				});
 
 			return { message, showMessage: true };
 		},
-		DOWNVOTE_POST: async (globalState, payload) => {
+		DOWNVOTE: async (globalState, payload) => {
+			let collectionName =
+				payload.collection.norwegianName[0].toUpperCase() +
+				payload.collection.norwegianName.slice(1);
+
 			const message = {
-				text: 'Innlegg nedstemt!',
+				text: `${collectionName} nedstemt!`,
 				severity: 'success',
 			};
 
-			await firebase.voteOnPost(payload.id, false).catch((error) => {
-				message.text = error.message;
-				message.severity = 'error';
-			});
+			await firebase
+				.vote(payload.id, false, payload.collection)
+				.catch((error) => {
+					message.text = error.message;
+					message.severity = 'error';
+				});
 			return { message, showMessage: true };
 		},
 	};

@@ -26,7 +26,7 @@ const StyledAppBar = withStyles({
 const PageNav = (props) => {
 	return (
 		<>
-			<StyledAppBar position="relative" elevation={15}>
+			<StyledAppBar position="relative" elevation={0}>
 				<Toolbar>
 					<Grid container justify="space-between" alignItems="center">
 						<Box>
@@ -51,7 +51,7 @@ const PageNav = (props) => {
 								<Typography variant="h1">
 									<Box
 										mr={2}
-										fontSize="1.2rem"
+										fontSize="1.92rem"
 										fontFamily="'M PLUS Rounded 1c'"
 										style={{
 											color: colorTheme.white,

@@ -46,7 +46,7 @@ const MainToolbar = (props) => {
 	return (
 		<>
 			<StyledAppBar
-				elevation={15}
+				elevation={0}
 				style={{
 					backgroundColor: isMobile ? colorTheme.primaryDark : colorTheme.white,
 				}}
@@ -63,7 +63,7 @@ const MainToolbar = (props) => {
 								>
 									<Box
 										mr={2}
-										fontSize="1.2rem"
+										fontSize="1.92rem"
 										fontFamily="'M PLUS Rounded 1c'"
 									>
 										postit

@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import configurePostitStore from './store/postit-store';
 import * as serviceWorker from './serviceWorker';
+import './index.css';
 
 configurePostitStore();
 

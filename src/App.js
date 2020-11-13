@@ -17,7 +17,13 @@ function App() {
 	const theme = createMuiTheme({
 		typography: {
 			htmlFontSize: 10,
-			fontSize: 9,
+			fontSize: 14,
+			h6: {
+				fontSize: '2rem',
+			},
+			body1: {
+				fontSize: '1.4rem',
+			},
 		},
 		palette: {
 			primary: {
@@ -30,7 +36,7 @@ function App() {
 				main: colorTheme.neutral,
 			},
 			background: {
-				default: colorTheme.white,
+				default: colorTheme.neutral,
 			},
 		},
 	});

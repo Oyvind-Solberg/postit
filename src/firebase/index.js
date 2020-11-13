@@ -45,11 +45,28 @@ export async function signOut() {
 	await auth.signOut();
 }
 
-export function subscribeToCollection(collection, callback) {
+export function subscribeToCollection(collection, sortName, callback) {
 	return db
 		.collection(collection)
-		.orderBy('votes', 'desc')
+		.orderBy(sortName, 'desc')
 		.onSnapshot(callback);
+}
+
+export function subscribeToCollectionWithQuery(
+	collection,
+	query,
+	sortName,
+	callback
+) {
+	return db
+		.collection(collection)
+		.where(query.key, '==', query.value)
+		.orderBy(sortName, 'desc')
+		.onSnapshot(callback);
+}
+
+export function subscribeToDoc(collection, doc, callback) {
+	return db.collection(collection).doc(doc).onSnapshot(callback);
 }
 
 export async function submitPost(title, text, author) {
@@ -57,7 +74,12 @@ export async function submitPost(title, text, author) {
 	await submit({ author, title, text });
 }
 
-export async function voteOnPost(id, isUpvoting) {
-	const vote = functions.httpsCallable('voteOnPost');
-	await vote({ id, isUpvoting });
+export async function submitComment(text, parent, post, author) {
+	const submit = functions.httpsCallable('submitComment');
+	await submit({ author, text, parent, post });
+}
+
+export async function vote(id, isUpvoting, collection) {
+	const vote = functions.httpsCallable('vote');
+	await vote({ id, isUpvoting, collection });
 }

@@ -5,26 +5,44 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { useStore } from '../../store/store';
-import Box from '@material-ui/core/Box';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import BackgroundOverlay from '../../components/Layout/BackgroundOverlay/BackgroundOverlay';
+import { Hidden } from '@material-ui/core';
 
-const StyledTextField = withStyles({
-	root: {
-		padding: 0,
+const useStyles = makeStyles((theme) => ({
+	textField: {
+		padding: '0 0 1.6rem 0',
 	},
-})(TextField);
-
-const ButtonBox = withStyles({
-	root: {
+	buttonGroup: {
 		display: 'inline-flex',
 		justifyContent: 'flex-end',
 		width: '100%',
 	},
-})(Box);
+	button: {
+		marginRight: '1rem',
+		'&:last-child': {
+			marginRight: '0',
+		},
+	},
+	title: {
+		marginBottom: '1.6rem',
+		[theme.breakpoints.down('sm')]: {
+			marginTop: '1rem',
+			marginLeft: '1.6rem',
+		},
+	},
+	form: {
+		padding: '1.6rem',
+	},
+}));
 
 const Submit = (props) => {
+	const theme = useTheme();
+	const matchesDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+	const classes = useStyles(props);
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
 	const [formIsValid, setFormIsValid] = useState(false);
@@ -57,58 +75,57 @@ const Submit = (props) => {
 
 	return (
 		<Layout>
-			<Box mb={2}>
-				<Typography variant="h6" component="h2">
-					Opprett nytt innlegg
-				</Typography>
-			</Box>
-			<Paper elevation={7}>
-				<form>
-					<Box p={2}>
-						<StyledTextField
-							id="title"
-							label="Tittel"
-							required
-							fullWidth
-							onChange={handleTitleChange}
-							value={title}
+			<Hidden mdUp>
+				<BackgroundOverlay />
+			</Hidden>
+			<Typography className={classes.title} variant="h6" component="h2">
+				Opprett nytt innlegg
+			</Typography>
+			<Paper elevation={matchesDownSm ? 0 : 7}>
+				<form className={classes.form}>
+					<TextField
+						className={classes.textField}
+						id="title"
+						label="Tittel"
+						required
+						fullWidth
+						onChange={handleTitleChange}
+						value={title}
+						variant={matchesDownSm ? 'standard' : 'outlined'}
+						size="small"
+					/>
+					<TextField
+						className={classes.textField}
+						id="text "
+						label="Tekst (valgfritt)"
+						multiline
+						rows={matchesDownSm ? 6 : 12}
+						fullWidth
+						onChange={handleTextChange}
+						value={text}
+						variant={matchesDownSm ? 'standard' : 'outlined'}
+						size="small"
+					/>
+					<div className={classes.buttonGroup}>
+						<Button
+							className={classes.button}
 							variant="outlined"
-							size="small"
-						/>
-						<Box pt={1.3} pb={2}>
-							<StyledTextField
-								id="text "
-								label="Tekst (valgfritt)"
-								multiline
-								rows={12}
-								fullWidth
-								onChange={handleTextChange}
-								value={text}
-								variant="outlined"
-								size="small"
-							/>
-						</Box>
-						<ButtonBox>
-							<Box component="span" mr={1.3}>
-								<Button
-									variant="outlined"
-									color="primary"
-									component={Link}
-									to="/"
-								>
-									Avbryt
-								</Button>
-							</Box>
-							<Button
-								onClick={handleSubmit}
-								variant="contained"
-								disabled={!formIsValid}
-								color="primary"
-							>
-								Publiser
-							</Button>
-						</ButtonBox>
-					</Box>
+							color="primary"
+							component={Link}
+							to="/"
+						>
+							Avbryt
+						</Button>
+						<Button
+							className={classes.button}
+							onClick={handleSubmit}
+							variant="contained"
+							disabled={!formIsValid}
+							color="primary"
+						>
+							Publiser
+						</Button>
+					</div>
 				</form>
 			</Paper>
 		</Layout>

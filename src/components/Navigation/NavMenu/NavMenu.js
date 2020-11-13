@@ -14,6 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { colorTheme } from '../../../shared/styles/colorTheme';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 const StyledListItemText = withStyles({
 	primary: {
@@ -46,7 +47,7 @@ const StyledMenu = withStyles({
 
 const NavButton = withStyles({
 	root: {
-		width: '17rem',
+		width: '27.2rem',
 		display: 'inline-flex',
 		justifyContent: 'space-between',
 	},
@@ -54,7 +55,7 @@ const NavButton = withStyles({
 
 const StyledMenuItem = withStyles({
 	root: {
-		width: '17rem',
+		width: '27.2rem',
 	},
 })(MenuItem);
 
@@ -147,6 +148,7 @@ const NavMenu = (props) => {
 				keepMounted
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
+				style={{ zIndex: 3000 }}
 			>
 				<StyledListSubheader>Postit Feeds</StyledListSubheader>
 				{populateItems([{ name: 'Hjem', link: '/' }])}

@@ -3,46 +3,52 @@ import { useStore } from '../../store/store';
 import Layout from '../../components/Layout/Layout';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
 import * as firebase from '../../firebase/index';
+import Post from '../../components/UI/Cards/Post/Post';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import IconButton from '@material-ui/core/IconButton';
-import { colorTheme } from '../../shared/styles/colorTheme';
+import OpenedPost from '../OpenedPost/OpenedPost';
+import { Hidden } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		display: 'flex',
-		marginBottom: '.8rem',
-		'&:last-child': {
-			marginBottom: '0',
+	modal: {
+		marginTop: '6.4rem',
+		[theme.breakpoints.down('xs')]: {
+			marginTop: '5.6rem',
 		},
 	},
-	votesControls: {
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'start',
-		alignItems: 'center',
-		backgroundColor: colorTheme.neutralLight,
-		padding: theme.spacing(1),
+	newPostForm: {
+		marginBottom: '2rem',
+		[theme.breakpoints.down('sm')]: {
+			marginBottom: '0.3rem',
+		},
 	},
 }));
+
+const ModalBackdrop = withStyles({
+	root: {
+		marginTop: '6.4rem',
+	},
+})(Backdrop);
 
 const Feed = (props) => {
 	const { isLoggedIn } = useStore()[0];
 	const [posts, setPosts] = useState([]);
+	const [openPostID, setOpenPostID] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
 	const asyncDispatch = useStore(false)[1];
 
 	const classes = useStyles();
 
 	useEffect(() => {
-		const unsubscribe = firebase.subscribeToCollection(
+		const unsubscribePosts = firebase.subscribeToCollection(
 			'posts',
+			'votes',
 			(querySnapshot) => {
 				const data = [];
 				querySnapshot.forEach((doc) => {
@@ -54,73 +60,69 @@ const Feed = (props) => {
 		);
 
 		return () => {
-			unsubscribe();
+			unsubscribePosts();
 		};
 	}, []);
 
-	const handleUpVote = (id) => {
-		asyncDispatch('UPVOTE_POST', { id });
+	const handleModalClose = () => {
+		setModalOpen(false);
 	};
 
-	const handleDownVote = (id) => {
-		asyncDispatch('DOWNVOTE_POST', { id });
+	const handleUpVote = (id, collection) => {
+		asyncDispatch('UPVOTE', { id, collection });
 	};
 
-	const content = posts.map(({ title, text, author, createdAt, votes, id }) => {
-		const date = new Date(createdAt);
-		const time =
-			('0' + date.getHours()).slice(-2) +
-			':' +
-			('0' + date.getMinutes()).slice(-2);
+	const handleDownVote = (id, collection) => {
+		asyncDispatch('DOWNVOTE', { id, collection });
+	};
 
-		return (
-			<Card className={classes.root} elevation={7} key={id}>
-				<div className={classes.votesControls}>
-					<IconButton
-						size="small"
-						onClick={() => {
-							handleUpVote(id);
-						}}
-					>
-						<ArrowUpwardIcon />
-					</IconButton>
-					<Typography variant="subtitle2" component="p">
-						{votes}
-					</Typography>
-					<IconButton
-						size="small"
-						onClick={() => {
-							handleDownVote(id);
-						}}
-					>
-						<ArrowDownwardIcon />
-					</IconButton>
-				</div>
-				<CardContent>
-					<Typography variant="caption" component="p">
-						Publisert av {author} - {date.toDateString()}, {time}
-					</Typography>
-					<Box mt={0.8}>
-						<Typography variant="h6" component="h2">
-							{title}
-						</Typography>
-					</Box>
-					{text ? (
-						<>
-							<Box mt={1.2}>
-								<Typography variant="body1">{text}</Typography>
-							</Box>
-						</>
-					) : null}
-				</CardContent>
-			</Card>
-		);
-	});
+	const handleOpenPost = (id) => {
+		setModalOpen(true);
+		setOpenPostID(id);
+	};
+
+	const content = posts.map(
+		({ title, text, author, createdAt, votes, id, comments }) => {
+			return (
+				<Post
+					key={id}
+					title={title}
+					text={text}
+					author={author}
+					createdAt={createdAt}
+					votes={votes}
+					id={id}
+					comments={comments}
+					handleDownVote={handleDownVote}
+					handleUpVote={handleUpVote}
+					handleOpenPost={handleOpenPost}
+				></Post>
+			);
+		}
+	);
 	return (
 		<Layout>
+			<Modal
+				BackdropComponent={ModalBackdrop}
+				className={classes.modal}
+				open={modalOpen}
+				onClose={handleModalClose}
+			>
+				<>
+					{modalOpen ? (
+						<OpenedPost
+							id={openPostID}
+							handleDownVote={handleDownVote}
+							handleUpVote={handleUpVote}
+							handleOpenPost={handleOpenPost}
+							handleModalClose={handleModalClose}
+						/>
+					) : null}
+				</>
+			</Modal>
 			{isLoggedIn ? (
-				<Box mb={2.5}>
-					<Card elevation={7}>
+				<Hidden smDown>
+					<Card elevation={7} className={classes.newPostForm}>
 						<CardContent>
 							<MaterialUILink component={Link} to="/submit">
 								<TextField
@@ -133,7 +135,7 @@ const Feed = (props) => {
 							</MaterialUILink>
 						</CardContent>
 					</Card>
-				</Box>
+				</Hidden>
 			) : null}
 			{content}
 		</Layout>

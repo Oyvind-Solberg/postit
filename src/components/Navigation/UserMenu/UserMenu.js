@@ -109,6 +109,7 @@ const NavMenu = (props) => {
 				keepMounted
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
+				style={{ zIndex: 3000 }}
 			>
 				<StyledListSubheader>Flere valg</StyledListSubheader>
 				{props.isLoggedIn ? (

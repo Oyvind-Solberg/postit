@@ -6,21 +6,12 @@ import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
 import { Link } from 'react-router-dom';
 import MaterialUILink from '@material-ui/core/Link';
-import styled from 'styled-components';
 import { useStore } from '../../store/store';
 import PageNav from '../../components/Navigation/PageNav/PageNav';
 import Box from '@material-ui/core/Box';
 import { checkValidity } from '../../shared/utility';
-
-const Container = styled.div`
-	height: 100%;
-	overflow: hidden;
-	background-color: white;
-	padding: 2rem;
-	display: flex;
-	justify-content: space-between;
-	flex-direction: column;
-`;
+import Container from '../../components/Layout/Container/Container';
+import BackgroundOverlay from '../../components/Layout/BackgroundOverlay/BackgroundOverlay';
 
 const Login = (props) => {
 	const [email, setEmail] = useState('');
@@ -76,6 +67,7 @@ const Login = (props) => {
 
 			<Hidden mdUp>
 				<PageNav />
+				<BackgroundOverlay />
 			</Hidden>
 			<Container>
 				<Box mb={3}>

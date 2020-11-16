@@ -148,13 +148,15 @@ const Comment = (props) => {
 										<span className={classes.counter}>{props.points}</span>
 									</VotesControls>
 								</Hidden>
-								<Button
-									className={classes.commentButton}
-									onClick={handleToggleReply}
-									startIcon={<ModeCommentIcon />}
-								>
-									Kommenter
-								</Button>
+								{props.isLoggedIn ? (
+									<Button
+										className={classes.commentButton}
+										onClick={handleToggleReply}
+										startIcon={<ModeCommentIcon />}
+									>
+										Kommenter
+									</Button>
+								) : null}
 							</div>
 							{replyOpen ? (
 								<Reply

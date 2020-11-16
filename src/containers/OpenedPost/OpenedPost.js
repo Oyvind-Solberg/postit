@@ -6,6 +6,8 @@ import Container from '@material-ui/core/Container';
 import Comment from '../../components/UI/Cards/Comment/Comment';
 import { colorTheme } from '../../shared/styles/colorTheme';
 import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -17,6 +19,16 @@ const useStyles = makeStyles((theme) => ({
 		height: '100%',
 		overflow: 'auto',
 	},
+	paper: {
+		borderTopRightRadius: '20px',
+		borderTopLeftRadius: '20px',
+		backgroundColor: 'transparent',
+	},
+	comments: {
+		marginTop: '.5rem',
+		borderTopLeftRadius: '0',
+		borderTopRightRadius: '0',
+	},
 }));
 
 const OpenedPost = (props) => {
@@ -24,7 +36,7 @@ const OpenedPost = (props) => {
 	const [post, setPost] = useState({});
 	const { user } = useStore()[0];
 	const { isLoggedIn } = useStore()[0];
-	const classes = useStyles();
+	const classes = useStyles(props);
 
 	useEffect(() => {
 		let unsubscribeComments = firebase.subscribeToCollectionWithQuery(
@@ -55,7 +67,9 @@ const OpenedPost = (props) => {
 		};
 	}, []);
 
-	const rootComments = comments.filter((comment) => comment.parent === null);
+	const rootComments = comments.filter((comment) => {
+		return comment.parent === null;
+	});
 
 	const createComments = (parentID) => {
 		const children = comments.filter((comment) => comment.parent === parentID);
@@ -73,6 +87,7 @@ const OpenedPost = (props) => {
 					post={post.id}
 					handleDownVote={props.handleDownVote}
 					handleUpVote={props.handleUpVote}
+					isLoggedIn={isLoggedIn}
 				>
 					{createComments(comment.id)}
 				</Comment>
@@ -88,42 +103,49 @@ const OpenedPost = (props) => {
 
 	return (
 		<Container className={classes.root} maxWidth="md">
-			<Post
-				key={post.id}
-				title={post.title}
-				text={post.text}
-				author={post.author}
-				createdAt={post.createdAt}
-				votes={post.votes}
-				id={post.id}
-				comments={post.comments}
-				handleDownVote={props.handleDownVote}
-				handleUpVote={props.handleUpVote}
-				handleOpenPost={props.handleOpenPost}
-				handleModalClose={props.handleModalClose}
-				postIsOpen
-				username={user ? user.username : null}
-				isLoggedIn={isLoggedIn}
-			>
-				{rootComments.map((comment) => {
-					return (
-						<Comment
-							isTopLevel
-							key={comment.id}
-							text={comment.text}
-							author={comment.author}
-							createdAt={comment.createdAt}
-							points={comment.points}
-							id={comment.id}
-							post={props.id}
-							handleDownVote={props.handleDownVote}
-							handleUpVote={props.handleUpVote}
-						>
-							{createComments(comment.id)}
-						</Comment>
-					);
-				})}
-			</Post>
+			<Paper elevation={7} className={classes.paper}>
+				<Post
+					key={post.id}
+					title={post.title}
+					text={post.text}
+					author={post.author}
+					createdAt={post.createdAt}
+					votes={post.votes}
+					id={post.id}
+					comments={post.comments}
+					handleDownVote={props.handleDownVote}
+					handleUpVote={props.handleUpVote}
+					handleOpenPost={props.handleOpenPost}
+					handleModalClose={props.handleModalClose}
+					postIsOpen
+					username={user ? user.username : null}
+					isLoggedIn={isLoggedIn}
+					hasComments={rootComments.length !== 0}
+				></Post>
+				{rootComments.length !== 0 ? (
+					<Card elevation={0} className={classes.comments}>
+						{rootComments.map((comment) => {
+							return (
+								<Comment
+									isTopLevel
+									key={comment.id}
+									text={comment.text}
+									author={comment.author}
+									createdAt={comment.createdAt}
+									points={comment.points}
+									id={comment.id}
+									post={props.id}
+									handleDownVote={props.handleDownVote}
+									handleUpVote={props.handleUpVote}
+									isLoggedIn={isLoggedIn}
+								>
+									{createComments(comment.id)}
+								</Comment>
+							);
+						})}
+					</Card>
+				) : null}
+			</Paper>
 		</Container>
 	);
 };

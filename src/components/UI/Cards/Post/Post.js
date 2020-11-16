@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
 			props.postIsOpen === true ? '20px' : '4px',
 		borderTopLeftRadius: (props) =>
 			props.postIsOpen === true ? '20px' : '4px',
+		borderBottomLeftRadius: (props) => (props.hasComments ? '0' : '4px'),
+		borderBottomRightRadius: (props) => (props.hasComments ? '0' : '4px'),
 		marginTop: (props) => (props.postIsOpen === true ? '0' : '1.28rem'),
 		[theme.breakpoints.down('sm')]: {
 			marginTop: (props) => (props.postIsOpen === true ? '0' : '0.3rem'),
@@ -150,7 +152,11 @@ const Post = (props) => {
 	);
 
 	return (
-		<Card className={classes.root} elevation={7} key={props.id}>
+		<Card
+			className={classes.root}
+			elevation={props.postIsOpen ? 0 : 7}
+			key={props.id}
+		>
 			{props.postIsOpen ? (
 				<div className={classes.header}>
 					<IconButton size="small" onClick={props.handleModalClose}>

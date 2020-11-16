@@ -6,11 +6,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-// import ForumIcon from '@material-ui/icons/Forum';
 import PersonIcon from '@material-ui/icons/Person';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom';
-import MaterialUILink from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 import { colorTheme } from '../../../shared/styles/colorTheme';
 import Box from '@material-ui/core/Box';
@@ -51,6 +49,12 @@ const StyledListSubheader = withStyles({
 	},
 })(ListSubheader);
 
+const StyledMenuItem = withStyles({
+	root: {
+		width: '27.2rem',
+	},
+})(MenuItem);
+
 const NavMenu = (props) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 
@@ -60,34 +64,6 @@ const NavMenu = (props) => {
 
 	const handleClose = () => {
 		setAnchorEl(null);
-	};
-
-	const selectIcon = (name) => {
-		switch (name) {
-			case 'Logg Inn / Registrer Deg':
-				return <ExitToAppIcon />;
-			case 'Logg Ut':
-				return <ExitToAppIcon />;
-
-			default:
-				return null;
-		}
-	};
-
-	const populateItems = (items) => {
-		return items.map((item) => {
-			return (
-				<MenuItem
-					key={item}
-					component={Link}
-					to={item.link}
-					onClick={handleClose}
-				>
-					<ListItemIcon>{selectIcon(item.name)}</ListItemIcon>
-					<StyledListItemText primary={item.name} />
-				</MenuItem>
-			);
-		});
 	};
 
 	return (
@@ -111,21 +87,25 @@ const NavMenu = (props) => {
 				onClose={handleClose}
 				style={{ zIndex: 3000 }}
 			>
-				<StyledListSubheader>Flere valg</StyledListSubheader>
 				{props.isLoggedIn ? (
-					populateItems([{ name: 'Logg Ut', link: '/logout' }])
+					<StyledMenuItem component={Link} to="/logout" onClick={handleClose}>
+						<ListItemIcon>
+							<ExitToAppIcon />
+						</ListItemIcon>
+						<StyledListItemText primary="Logg Ut" />
+					</StyledMenuItem>
 				) : (
-					<MenuItem
+					<StyledMenuItem
 						onClick={() => {
 							handleClose();
 							props.handleLogin();
 						}}
 					>
 						<ListItemIcon>
-							{selectIcon('Logg Inn / Registrer Deg')}
+							<ExitToAppIcon />
 						</ListItemIcon>
 						<ListItemText primary={'Logg Inn / Registrer Deg'} />
-					</MenuItem>
+					</StyledMenuItem>
 				)}
 			</StyledMenu>
 		</>

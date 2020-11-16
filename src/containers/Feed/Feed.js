@@ -124,7 +124,7 @@ const Feed = (props) => {
 				<Hidden smDown>
 					<Card elevation={7} className={classes.newPostForm}>
 						<CardContent>
-							<MaterialUILink component={Link} to="/submit">
+							<MaterialUILink tabIndex={-1} component={Link} to="/submit">
 								<TextField
 									id="outlined-basic"
 									label="Nytt innlegg"

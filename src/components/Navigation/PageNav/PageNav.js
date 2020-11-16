@@ -3,11 +3,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Hidden from '@material-ui/core/Hidden';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from '@material-ui/core/Typography';
 import { colorTheme } from '../../../shared/styles/colorTheme';

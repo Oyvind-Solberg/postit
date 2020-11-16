@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 const OpenedPost = (props) => {
 	const [comments, setComments] = useState([]);
 	const [post, setPost] = useState({});
+	const [closeButtonRef, setCloseButtonRef] = useState(null);
 	const { user } = useStore()[0];
 	const { isLoggedIn } = useStore()[0];
 	const classes = useStyles(props);
@@ -66,6 +67,15 @@ const OpenedPost = (props) => {
 			unsubscribePost();
 		};
 	}, []);
+
+	useEffect(() => {
+		if (closeButtonRef) {
+			const ref = { ...closeButtonRef };
+			setTimeout(() => {
+				ref.current.focus();
+			}, 100);
+		}
+	}, [closeButtonRef]);
 
 	const rootComments = comments.filter((comment) => {
 		return comment.parent === null;
@@ -121,6 +131,7 @@ const OpenedPost = (props) => {
 					username={user ? user.username : null}
 					isLoggedIn={isLoggedIn}
 					hasComments={rootComments.length !== 0}
+					setCloseButtonRef={setCloseButtonRef}
 				></Post>
 				{rootComments.length !== 0 ? (
 					<Card elevation={0} className={classes.comments}>

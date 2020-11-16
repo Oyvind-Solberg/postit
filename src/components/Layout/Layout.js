@@ -13,17 +13,6 @@ import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-	// backgroundOverlay: (props) =>
-	// 	props.backgroundWhite
-	// 		? {
-	// 				position: 'absolute',
-	// 				top: '0',
-	// 				left: '0',
-	// 				backgroundColor: colorTheme.white,
-	// 				height: '100vh',
-	// 				width: '100vw',
-	// 		  }
-	// 		: {},
 	main: {
 		marginTop: '6.4rem',
 		[theme.breakpoints.down('xs')]: {
@@ -94,7 +83,6 @@ const Layout = (props) => {
 			{isLoading ? (
 				<Spinner />
 			) : (
-				// <div className={classes.backgroundOverlay}>
 				<>
 					<header>
 						<MainToolbar
@@ -129,7 +117,6 @@ const Layout = (props) => {
 						</Container>
 					</main>
 				</>
-				// </div>
 			)}
 		</>
 	);

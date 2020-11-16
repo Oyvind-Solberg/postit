@@ -14,7 +14,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { colorTheme } from '../../../shared/styles/colorTheme';
-import zIndex from '@material-ui/core/styles/zIndex';
 
 const StyledListItemText = withStyles({
 	primary: {
@@ -107,22 +106,6 @@ const NavMenu = (props) => {
 		}
 	};
 
-	const populateItems = (items) => {
-		return items.map((item) => {
-			return (
-				<StyledMenuItem
-					key={item}
-					component={Link}
-					to={item.link}
-					onClick={handleClose}
-				>
-					<ListItemIcon>{selectIcon(item.name)}</ListItemIcon>
-					<StyledListItemText primary={item.name} />
-				</StyledMenuItem>
-			);
-		});
-	};
-
 	return (
 		<>
 			<NavButton
@@ -150,12 +133,19 @@ const NavMenu = (props) => {
 				onClose={handleClose}
 				style={{ zIndex: 3000 }}
 			>
-				<StyledListSubheader>Postit Feeds</StyledListSubheader>
-				{populateItems([{ name: 'Hjem', link: '/' }])}
+				<StyledMenuItem component={Link} to={'/'} onClick={handleClose}>
+					<ListItemIcon>
+						<HomeIcon color="primary" fontSize="small" />
+					</ListItemIcon>
+					<StyledListItemText primary="Hjem" />
+				</StyledMenuItem>
 
-				<StyledListSubheader>Annet</StyledListSubheader>
-
-				{populateItems([{ name: 'Nytt Innlegg', link: '/submit' }])}
+				<StyledMenuItem component={Link} to={'/submit'} onClick={handleClose}>
+					<ListItemIcon>
+						<CreateIcon color="primary" fontSize="small" />
+					</ListItemIcon>
+					<StyledListItemText primary="Nytt Innlegg" />
+				</StyledMenuItem>
 			</StyledMenu>
 		</>
 	);

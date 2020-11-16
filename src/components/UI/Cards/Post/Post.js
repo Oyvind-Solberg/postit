@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -57,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	content: {
+		'&:focus': {
+			outline: `none`,
+			boxShadow: `-4px 0px 0px 0px ${colorTheme.neutral}`,
+		},
 		padding: '1.2rem 2rem 1.2rem .9rem',
 		[theme.breakpoints.down('sm')]: {
 			padding: '1.2rem 1.8rem 1.2rem 1.8rem',
@@ -124,6 +128,7 @@ const Post = (props) => {
 		('0' + date.getHours()).slice(-2) +
 		':' +
 		('0' + date.getMinutes()).slice(-2);
+	const closeButtonRef = useRef(null);
 
 	let voteCollection = {
 		name: 'posts',
@@ -131,11 +136,23 @@ const Post = (props) => {
 		field: 'votes',
 	};
 
+	useEffect(() => {
+		if (props.setCloseButtonRef) {
+			props.setCloseButtonRef(closeButtonRef);
+		}
+	}, []);
+
 	const handleToggleReply = () => {
 		if (replyOpen) {
 			setReplyOpen(false);
 		} else {
 			setReplyOpen(true);
+		}
+	};
+
+	const handleKeyDown = (id, event) => {
+		if (event.key === 'Enter') {
+			props.handleOpenPost(id);
 		}
 	};
 
@@ -159,7 +176,11 @@ const Post = (props) => {
 		>
 			{props.postIsOpen ? (
 				<div className={classes.header}>
-					<IconButton size="small" onClick={props.handleModalClose}>
+					<IconButton
+						ref={closeButtonRef}
+						size="small"
+						onClick={props.handleModalClose}
+					>
 						<CloseIcon />
 					</IconButton>
 				</div>
@@ -180,8 +201,12 @@ const Post = (props) => {
 				</Hidden>
 				<CardContent
 					className={classes.content}
+					tabIndex={0}
 					onClick={() =>
 						props.postIsOpen ? null : props.handleOpenPost(props.id)
+					}
+					onKeyDown={(event) =>
+						props.postIsOpen ? null : handleKeyDown(props.id, event)
 					}
 				>
 					<Typography variant="caption" component="p">

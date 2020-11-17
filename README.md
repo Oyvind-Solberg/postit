@@ -1,6 +1,6 @@
 # Portfolio Øyvind Solberg
 
-Postit is a social media app based on [Reddit](https://www.reddit.com/), where a user can create and vote on posts.
+Postit is a social media app based on [Reddit](https://www.reddit.com/), where a user can create and vote on posts and comments.
 
 ## Demo
 

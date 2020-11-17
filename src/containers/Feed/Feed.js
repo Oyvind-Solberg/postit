@@ -81,6 +81,18 @@ const Feed = (props) => {
 		setOpenPostID(id);
 	};
 
+	const goToSubmit = () => {
+		props.history.push({ pathname: '/submit' });
+	};
+
+	const handleKeyDown = (event) => {
+		const key = event.key;
+		const isAllowedKey = /^.{1}$|Enter/is.test(key);
+		if (isAllowedKey) {
+			goToSubmit();
+		}
+	};
+
 	const content = posts.map(
 		({ title, text, author, createdAt, votes, id, comments }) => {
 			return (
@@ -124,15 +136,18 @@ const Feed = (props) => {
 				<Hidden smDown>
 					<Card elevation={7} className={classes.newPostForm}>
 						<CardContent>
-							<MaterialUILink tabIndex={-1} component={Link} to="/submit">
-								<TextField
-									id="outlined-basic"
-									label="Nytt innlegg"
-									variant="outlined"
-									fullWidth
-									size="small"
-								/>
-							</MaterialUILink>
+							<TextField
+								id="outlined-basic"
+								label="Nytt innlegg"
+								variant="outlined"
+								fullWidth
+								size="small"
+								onClick={goToSubmit}
+								value=""
+								onKeyDown={(event) => {
+									handleKeyDown(event);
+								}}
+							/>
 						</CardContent>
 					</Card>
 				</Hidden>

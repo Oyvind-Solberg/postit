@@ -4,8 +4,6 @@ import Layout from '../../components/Layout/Layout';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
-import MaterialUILink from '@material-ui/core/Link';
 import * as firebase from '../../firebase/index';
 import Post from '../../components/UI/Cards/Post/Post';
 import Modal from '@material-ui/core/Modal';

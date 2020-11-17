@@ -7,7 +7,6 @@ import Login from '../../containers/Login/Login';
 import Register from '../../containers/Register/Register';
 import Spinner from '../UI/Spinner/Spinner';
 import { withStyles } from '@material-ui/core/styles';
-import { colorTheme } from '../../shared/styles/colorTheme';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';

@@ -21,7 +21,7 @@ const firebaseApp = !firebase.apps.length
 
 const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
-const storage = firebaseApp.storage();
+// const storage = firebaseApp.storage();
 const functions = firebaseApp.functions();
 
 export async function createUser(email, password, username) {

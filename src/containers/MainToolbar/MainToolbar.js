@@ -26,10 +26,6 @@ const StyledIconButton = withStyles({
 	},
 })(IconButton);
 
-function IconButtonLink(props) {
-	return <StyledIconButton component={Link} {...props}></StyledIconButton>;
-}
-
 const StyledAppBar = withStyles({
 	root: {
 		backgroundColor: colorTheme.white,

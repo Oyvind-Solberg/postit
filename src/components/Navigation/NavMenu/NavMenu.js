@@ -6,7 +6,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import HomeIcon from '@material-ui/icons/Home';
 import CreateIcon from '@material-ui/icons/Create';
 import ForumIcon from '@material-ui/icons/Forum';
@@ -57,13 +56,6 @@ const StyledMenuItem = withStyles({
 		width: '27.2rem',
 	},
 })(MenuItem);
-
-const StyledListSubheader = withStyles({
-	root: {
-		paddingTop: '0',
-		paddingBottom: '0',
-	},
-})(ListSubheader);
 
 const NavMenu = (props) => {
 	const [currentPage, setCurrentPage] = useState('Home');

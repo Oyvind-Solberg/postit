@@ -8,7 +8,6 @@ import { colorTheme } from '../../../../shared/styles/colorTheme';
 import Reply from '../../../../containers/Reply/Reply';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import CloseIcon from '@material-ui/icons/Close';
-import Button from '@material-ui/core/Button';
 import VotesControls from '../../Controls/VotesControls/VotesControls';
 import Hidden from '@material-ui/core/Hidden';
 import TextField from '@material-ui/core/TextField';
